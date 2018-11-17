@@ -13,8 +13,8 @@ DROP TABLE IF EXISTS `room`;
 CREATE TABLE room (
     room_id        INTEGER          not null,
     room_type      VARCHAR(50)      not null,
-    tv             BOOLEAN          not null,
-    hot_tub        BOOLEAN          not null,
+    tv         	   BOOLEAN	 	    DEFAULT true,
+    hot_tub		   BOOLEAN		    DEFAULT false,
     PRIMARY KEY ( room_id )
 );
 
@@ -41,6 +41,7 @@ CREATE TABLE payment(
    credit_card        VARCHAR(16)     not null,
    experation_date    DATE            not null,
    amount_due         DOUBLE          not null,
+   paid			      BOOLEAN	      DEFAULT false,
    PRIMARY KEY ( payment_id )
 );
 
