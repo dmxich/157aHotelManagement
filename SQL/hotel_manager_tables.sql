@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS `room_availability`;
 DROP TABLE IF EXISTS `reservation`;
 DROP TABLE IF EXISTS `guest`;
 CREATE TABLE guest (
-    guest_id         INTEGER           not null,
+    guest_id         INTEGER           not null     AUTO_INCREMENT,
     first_name        VARCHAR(50)       not null,
     last_name         VARCHAR(50)       not null,
     email             VARCHAR(50)       not null,
@@ -20,7 +20,7 @@ CREATE TABLE room (
 
 
 CREATE TABLE reservation (
-    reservation_id     INTEGER          not null,
+    reservation_id     INTEGER          not null    AUTO_INCREMENT,
     room_id            INTEGER          not null,
     guest_id          INTEGER          not null, 
     phone              VARCHAR(20)      not null,
