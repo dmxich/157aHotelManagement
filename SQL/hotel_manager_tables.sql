@@ -38,7 +38,7 @@ CREATE TABLE reservation (
 DROP TABLE IF EXISTS `payment`;
 CREATE TABLE payment(
    payment_id         INTEGER         not null,
-   credit_card        VARCHAR(16)     not null,
+   credit_card        VARCHAR(18)     not null,
    experation_date    DATE            not null,
    amount_due         DOUBLE          not null,
    paid			      BOOLEAN	      DEFAULT false,
