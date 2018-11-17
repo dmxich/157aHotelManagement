@@ -8,9 +8,9 @@ import java.sql.Statement;
 import java.util.Properties;
 
 import javax.sql.DataSource;
+import javax.sql.DataSource;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
-
-
+ 
 class DataSourceFactory {
     public static DataSource getMySQLDataSource() {
         
@@ -32,7 +32,6 @@ class DataSourceFactory {
       
     }
 }
-
 
 public class Connector 
 {
