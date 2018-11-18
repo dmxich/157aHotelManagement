@@ -1,3 +1,4 @@
+package DB;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
@@ -11,8 +12,10 @@ import javax.sql.DataSource;
 import javax.sql.DataSource;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
  
-class DataSourceFactory {
-    public static DataSource getMySQLDataSource() {
+class DataSourceFactory 
+{
+    public static DataSource getMySQLDataSource() 
+    {
         
     	Properties props = new Properties();
         FileInputStream fis = null;
@@ -31,6 +34,9 @@ class DataSourceFactory {
         return mysqlDS;
       
     }
+    
+    
+    
 }
 
 public class Connector 
@@ -53,5 +59,12 @@ public class Connector
     	} else {
     		System.out.println("Failed to make connection!");
     	}
- }        
+    	
+    	
+    	
+    	
+ }       
+ 
+ 
+ 
 }
