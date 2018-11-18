@@ -15,6 +15,7 @@ CREATE TABLE room (
     room_type      VARCHAR(50)      not null,
     tv         	   BOOLEAN	 	    DEFAULT true,
     hot_tub		   BOOLEAN		    DEFAULT false,
+    rate           DOUBLE           not null,
     PRIMARY KEY ( room_id )
 );
 
