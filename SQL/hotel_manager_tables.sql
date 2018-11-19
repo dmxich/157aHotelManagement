@@ -61,7 +61,7 @@ CREATE TABLE room_reserved (
 INSERT INTO guest (guest_id, first_name, last_name, email) 
 VALUES (10001, "Jun", "Ma", "jun@gmail.com");
 
-INSERT INTO room ( room_id, type, tv, hot_tub, rate) 
+INSERT INTO room ( room_id, room_type, tv, hot_tub, rate) 
 VALUES 
 (101, "single", true, false, 70),
 (102, "single", true, false, 70),
