@@ -28,7 +28,7 @@ CREATE TABLE reservation (
     arrive             DATE             not null,
     depart             DATE             not null,
     cost               DOUBLE           not null,
-    reservation_status VARCHAR(50)      not null,
+    status             VARCHAR(50)      not null,
     payment_due        DATE             not null,
     payment_id         INTEGER          not null,
     FOREIGN KEY ( guest_id ) REFERENCES guest (guest_id),
@@ -48,10 +48,44 @@ CREATE TABLE payment(
 
 
 
-DROP TABLE IF EXISTS `room_availability`;
-CREATE TABLE room_availability (
-    room_id             INTEGER            not null,
-    start_date          DATE               not null,
-    end_date            DATE               not null,
-    FOREIGN KEY ( room_id ) REFERENCES room (room_id)
+DROP TABLE IF EXISTS `room_reserved`;
+CREATE TABLE room_reserved (
+    room_id           	INTEGER       		not null,
+    start_date	    	DATE		   	not null,
+    end_date	    	DATE		   	not null,
+    PRIMARY KEY ( room_id, start_date ),
+    FOREIGN KEY ( room_id ) REFERENCES room (room_id),
 );
+
+
+INSERT INTO guest (guest_id, first_name, last_name, email) 
+VALUES (10001, "Jun", "Ma", "jun@gmail.com");
+
+INSERT INTO room ( room_id, type, tv, hot_tub, rate) 
+VALUES 
+(101, "single", true, false, 70),
+(102, "single", true, false, 70),
+(103, "single", true, false, 70),
+(104, "double", true, false, 110),
+(105, "double", true, false, 110),
+(201, "single", true, false, 70),
+(202, "single", true, false, 70),
+(203, "single", true, false, 70),
+(204, "double", true, false, 120),
+(205, "double", true, false, 120),
+(301, "single", true, false, 70),
+(302, "single", true, false, 70),
+(303, "single", true, false, 70),
+(304, "platinum", true, false, 130),
+(305, "platinum", true, false, 130);
+
+INSERT INTO payment (payment_id, credit_card, expiration_date, amount_due, paid)
+VALUES (30001, "1234567890123456", "2018-09-01", 460.2, false);
+
+INSERT INTO reservation (reservation_id, room_id, guest_id, phone, arrive, depart, cost, status, payment_due, payment_id) 
+VALUES (20001, 101, 10001, '4151111134', '2018-06-10', '2018-06-12', 460.2, 'available', '2018-06-10', 30001);
+
+INSERT INTO room_reserved (room_id, start_date, end_date) 
+VALUES (101, '2018-06-10', '2018-06-12');
+
+
