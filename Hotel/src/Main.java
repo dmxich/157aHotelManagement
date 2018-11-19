@@ -21,6 +21,7 @@ public class Main{
 	    		System.out.println("You made it, take control your database now!");
 		    	Connector c = new Connector(connection);
 		    	c.ListGuestsThatOweMoney();
+		    	c.ListTakenRooms();
 	    	} else {
 	    		System.out.println("Failed to make connection!");
 	    	}
