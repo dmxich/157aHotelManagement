@@ -8,6 +8,7 @@ CREATE TABLE guest (
     email             VARCHAR(50)       not null,
    PRIMARY KEY (guest_id)
 );
+ALTER TABLE guest MODIFY COLUMN guest_id INT NOT NULL AUTO_INCREMENT;
 
 DROP TABLE IF EXISTS `room`;
 CREATE TABLE room (
@@ -35,6 +36,7 @@ CREATE TABLE reservation (
     FOREIGN KEY ( room_id ) REFERENCES room(room_id),
     PRIMARY KEY ( reservation_id )
 );
+ALTER TABLE reservation MODIFY COLUMN reservation_id INT NOT NULL AUTO_INCREMENT;
 
 DROP TABLE IF EXISTS `payment`;
 CREATE TABLE payment(
@@ -45,7 +47,7 @@ CREATE TABLE payment(
    paid			      BOOLEAN	      DEFAULT false,
    PRIMARY KEY ( payment_id )
 );
-
+ALTER TABLE payment MODIFY COLUMN payment_id INT NOT NULL AUTO_INCREMENT;
 
 
 DROP TABLE IF EXISTS `room_reserved`;
@@ -61,7 +63,7 @@ CREATE TABLE room_reserved (
 INSERT INTO guest (guest_id, first_name, last_name, email) 
 VALUES (10001, "Jun", "Ma", "jun@gmail.com");
 
-INSERT INTO room ( room_id, type, tv, hot_tub, rate) 
+INSERT INTO room ( room_id, room_type, tv, hot_tub, rate) 
 VALUES 
 (101, "single", true, false, 70),
 (102, "single", true, false, 70),
