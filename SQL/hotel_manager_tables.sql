@@ -48,8 +48,8 @@ CREATE TABLE payment(
 
 
 
-DROP TABLE IF EXISTS `room_availability`;
-CREATE TABLE room_availability (
+DROP TABLE IF EXISTS `room_reserved`;
+CREATE TABLE room_reserved (
     room_id           	INTEGER       		not null,
     start_date	    	DATE		   	not null,
     end_date	    	DATE		   	not null,
