@@ -35,23 +35,35 @@ class DataSourceFactory {
 
 public class Connector 
 {
- public static void main (String [] args)
- {
-        DataSource ds = DataSourceFactory.getMySQLDataSource();     
-       
-        Connection connection =  null; 
-        try {
-    		connection = ds.getConnection(); 
-    	} catch (SQLException e) {
-    		System.out.println("Connection Failed! Check output console");
-    		e.printStackTrace();
-    		return;
-    	}
-     
-    	if (connection != null) {
-    		System.out.println("You made it, take control your database now!");
-    	} else {
-    		System.out.println("Failed to make connection!");
-    	}
- }        
+	private Connection conn;
+	private Statement statement;
+	public Connector(Connection connection){
+		this.conn = connection;
+		try {
+			this.statement = conn.createStatement();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	public void ListGuestsThatOweMoney(){
+		ResultSet rs = null;
+		System.out.println("getting guests that owe money");
+		try {
+			rs = statement.executeQuery("SELECT g.first_name, g.last_name, SUM(p.amount_due) as amnt "
+					+ "FROM payment p, reservation r , guest g "
+					+ "WHERE g.guest_id = r.guest_id and p.payment_id  = r.payment_id and p.amount_due > 0 "
+					+ "GROUP BY g.guest_id;");
+			printRS(rs);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	}
+
+	public void printRS(ResultSet rs) throws SQLException{
+		while(rs.next()){
+			System.out.println("Name: " + rs.getString("first_name") + " " + rs.getString("last_name") + " Amount Owed: " + rs.getInt("amnt")); 
+		}
+	}
 }
+
