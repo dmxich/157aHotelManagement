@@ -67,9 +67,9 @@ public class Connector
 	}
 	public void ListTakenRooms(){
 		ResultSet rs = null;
-		System.out.println("Taken Rooms");
+		System.out.println("Available Rooms");
 		try {
-			rs = statement.executeQuery("select R.room_id from room R where R.room_id IN (select room_id from room_reserved)");
+			rs = statement.executeQuery("select R.room_id from room R where R.room_id NOT IN (select room_id from room_reserved)");
 			printGuestsRoom(rs);
 		} catch (SQLException e1) {
 			e1.printStackTrace();
@@ -79,6 +79,21 @@ public class Connector
 	public void printGuestsRoom(ResultSet rs) throws SQLException{
 		while(rs.next()){
 			System.out.println("Room Number: " + rs.getString("room_id")); 
+		}
+	}
+	public void ListReservations(){
+		ResultSet rs = null;
+		System.out.println("Reserved Rooms");
+		try {
+			rs = statement.executeQuery("select * from reservation NATURAL JOIN guest");
+			printReservation(rs);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	}
+	public void printReservation(ResultSet rs) throws SQLException{
+		while(rs.next()){
+			System.out.println("Name: " + rs.getString("first_name") + " " + rs.getString("last_name")+ " Room Number: "+ rs.getString("room_id") + " Start Date: " + rs.getDate("arrive") + " End Date: "+ rs.getDate("depart") ); 
 		}
 	}
 }

@@ -22,6 +22,7 @@ public class Main{
 		    	Connector c = new Connector(connection);
 		    	c.ListGuestsThatOweMoney();
 		    	c.ListTakenRooms();
+		    	c.ListReservations();
 	    	} else {
 	    		System.out.println("Failed to make connection!");
 	    	}
