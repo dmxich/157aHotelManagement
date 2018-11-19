@@ -85,7 +85,7 @@ VALUES (30001, "1234567890123456", "2018-09-01", 460.2, false);
 INSERT INTO reservation (reservation_id, room_id, guest_id, phone, arrive, depart, cost, status, payment_due, payment_id) 
 VALUES (20001, 101, 10001, '4151111134', '2018-06-10', '2018-06-12', 460.2, 'available', '2018-06-10', 30001);
 
-INSERT INTO room_availability (room_id, start_date, end_date) 
+INSERT INTO room_reserved (room_id, start_date, end_date) 
 VALUES (101, '2018-06-10', '2018-06-12');
 
 
