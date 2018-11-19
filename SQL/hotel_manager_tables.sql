@@ -53,7 +53,7 @@ CREATE TABLE room_reserved (
     room_id           	INTEGER       		not null,
     start_date	    	DATE		   	not null,
     end_date	    	DATE		   	not null,
-    PRIMARY KEY ( room_id, start_date )
+    PRIMARY KEY ( room_id, start_date ),
     FOREIGN KEY ( room_id ) REFERENCES room (room_id),
 );
 
