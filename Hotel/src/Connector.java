@@ -117,7 +117,7 @@ public class Connector
 
 		try {
 			java.sql.Date arrive, depart, payment_due, expiration;
-			int rm_id, g_id;
+			int rm_id, g_id = 0;
 			int p_id = 0;
 			String phone = "";
 			double cost = 0;
@@ -197,9 +197,25 @@ public class Connector
 			amount = cost;
 			System.out.println("Rate: $" + rate+" per night.");
 
-		//get guest id
-			System.out.println("\nPlease enter Guest ID #:");
-			g_id = Integer.parseInt(scanner.nextLine());
+			boolean isValidGuest = false;
+			while(!isValidGuest)
+			{
+			//get guest id
+				System.out.println("\nPlease enter Guest ID #:");
+				g_id = Integer.parseInt(scanner.nextLine());
+				
+			//validating the guest id
+				sql = "SELECT * FROM guest WHERE guest_id = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, g_id);
+				
+				ResultSet rs = pstmt.executeQuery();
+				if(!rs.next()) {
+					System.out.print("Guest number " + g_id + " is invalid.");
+				}else {
+					isValidGuest = true;
+				}
+			}
 			
 		// enter phone number
 			System.out.println("\nPlease enter phone #:");
