@@ -44,7 +44,8 @@ public class Main{
 	    			
 	    	        switch (input) { 
 	    	        case "1": 
-	    	            System.out.print("Making a reservation...\n");
+	    	            System.out.print("<====== Making a reservation ======>");
+	    	            c.makeReservation();
 	    	            break; 
 	    	        case "2": 
 	    	             
