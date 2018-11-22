@@ -62,7 +62,7 @@ public class Connector
 
 	public void printGuestsThatOwe(ResultSet rs) throws SQLException{
 		while(rs.next()){
-			System.out.println("Name: " + rs.getString("first_name") + " " + rs.getString("last_name") + " Amount Owed: " + rs.getInt("amnt")); 
+			System.out.println("Name: " + rs.getString("first_name") + " " + rs.getString("last_name") + ", Amount Owed: $ " + rs.getDouble("amnt")); 
 		}
 	}
 	public void ListTakenRooms(){
