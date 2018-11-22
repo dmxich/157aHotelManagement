@@ -29,7 +29,7 @@ CREATE TABLE reservation (
     arrive             DATE             not null,
     depart             DATE             not null,
     cost               DOUBLE           not null,
-    status             VARCHAR(50)      not null,
+    r_status           VARCHAR(50)      not null,
     payment_due        DATE             not null,
     payment_id         INTEGER          not null,
     FOREIGN KEY ( guest_id ) REFERENCES guest (guest_id),
