@@ -35,16 +35,15 @@ public class Main{
 	    					+ "6.  List Empty rooms and their costs         15. List guests leaving on a specific date\n"
 	    					+ "7.  List all the reservations for a guest    16. Register a new guest (** basic function **)\n"
 	    					+ "8.  Delete room                              17. \n"
-	    					+ "9.  Pay for room using reservation ID        18. \n\n"
+	    					+ "9.  Pay for a room using reservation ID      18. \n\n"
 	    					+ "* Enter \"exit\" to exit the system\n"
 	    					);
-	    			System.out.println("Please enter the number of function from above:\n");
+	    			System.out.println("Please enter the number of function from above:");
 	    			Scanner scanner = new Scanner(System. in); 
 	    			String input = scanner. nextLine();
 	    			
 	    	        switch (input) { 
 	    	        case "1": 
-	    	            System.out.print("<====== Making a reservation ======>");
 	    	            c.makeReservation();
 	    	            break; 
 	    	        case "2": 
@@ -68,8 +67,8 @@ public class Main{
 	    	        case "8": 
 	    	             
 	    	            break;
-	    	        case "9": 
-	    	             
+	    	        case "9":
+	    	            c.makePayment();
 	    	            break;
 	    	        case "10": 
 	    	             

@@ -112,7 +112,7 @@ public class Connector
 	//Jun, function  # 1
 	public void makeReservation() {
 		
-		System.out.println("Start making a reservation");
+		System.out.println("\n<===== Make a reservation =====>");
 		Scanner scanner = new Scanner(System. in); 
 
 		try {
@@ -243,13 +243,50 @@ public class Connector
 
 			boolean hasResult = cstmt.execute();
 			
-			System.out.println("Reservation made.\n");
+			if(hasResult) {
+				System.out.println("Reservation is made.\n");
+			}else {
+				System.out.println("Failed to make a reservation.\n");
+			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();
-		}
-			
-
+		}	
+	}
+	
+	//Jun, function #9
+	public void makePayment() {
+		System.out.println("\n<===== Make Payment =====>");
+		int reservation_id;
+		Scanner scanner = new Scanner(System. in); 
+		System.out.println("Please enter the Reservation ID:");
 		
+		reservation_id = scanner.nextInt();
+		
+		try {
+			String sql = "SELECT * FROM reservation WHERE reservation_id = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, reservation_id);
+			
+			ResultSet rs = pstmt.executeQuery();
+			if(!rs.next()) {
+				System.out.print("Reservation number " + reservation_id + " is invalid.");
+			}else {
+				System.out.println("reservation_id----> " + reservation_id);
+				sql = "{ call spMakePayment(?)}";
+				java.sql.CallableStatement cstmt = conn.prepareCall(sql);
+				cstmt.setInt(1, reservation_id);
+				boolean hasResult = cstmt.execute();
+				if(hasResult) {
+					System.out.println("Reservation is paid.\n");
+				}else {
+					System.out.println("Failed to make a payment.\n");
+				}
+			}
+
+
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }
 
