@@ -273,14 +273,55 @@ public class Connector
 				java.sql.CallableStatement cstmt = conn.prepareCall(sql);
 				cstmt.setInt(1, reservation_id);
 				boolean hasResult = cstmt.execute();
-				if(hasResult) {
-					System.out.println("Reservation is paid.\n");
-				}else {
-					System.out.println("Failed to make a payment.\n");
-				}
+
+				System.out.println("Reservation is paid.\n");
+
 			}
 
 
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//Jun, function #16
+	public void RegisterGuest() {
+		System.out.println("\n<===== Register a new guest =====>");
+		String last_name , first_name, email;
+		int guest_id = 0;
+		boolean isValid = true;
+		Scanner scanner = new Scanner(System. in); 
+		
+		System.out.println("Please enter a new guest Last Name:");		
+		last_name = scanner.nextLine();
+		System.out.println("Please enter a new guest First Name:");		
+		first_name = scanner.nextLine();
+		System.out.println("Please enter a new guest Email Address:");		
+		email = scanner.nextLine();
+		
+		try {
+			String sql = "INSERT INTO guest (first_name, last_name, email)" + 
+					"VALUES (?, ?, ?);";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,  first_name);
+			pstmt.setString(2,  last_name);
+			pstmt.setString(3,  email);
+			pstmt.executeUpdate();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		//show the last guest id
+		System.out.println(first_name + " " + last_name + " has been added to system.");
+		try {
+			Statement stmt = conn.createStatement();
+			String sql = "SELECT guest_id FROM guest ORDER BY guest_id DESC LIMIT 1;";			
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next())
+			{
+				guest_id = rs.getInt("guest_id");
+			}
+			System.out.println("Guest ID: " + guest_id);
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}

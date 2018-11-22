@@ -90,7 +90,7 @@ public class Main{
 	    	             
 	    	            break;
 	    	        case "16": 
-	    	             
+	    	            c.RegisterGuest();
 	    	            break;
 	    	        case "17": 
 	    	             
