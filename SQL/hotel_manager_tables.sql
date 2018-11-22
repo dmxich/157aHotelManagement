@@ -20,7 +20,7 @@ CREATE TABLE room (
     PRIMARY KEY ( room_id )
 );
 
-
+DROP TABLE IF EXISTS `reservation`;
 CREATE TABLE reservation (
     reservation_id     INTEGER          not null    AUTO_INCREMENT,
     room_id            INTEGER          not null,
@@ -29,7 +29,7 @@ CREATE TABLE reservation (
     arrive             DATE             not null,
     depart             DATE             not null,
     cost               DOUBLE           not null,
-    r_status           VARCHAR(50)      not null,
+    r_status           VARCHAR(50)      not null DEFAULT 'pending',
     payment_due        DATE             not null,
     payment_id         INTEGER          not null,
     FOREIGN KEY ( guest_id ) REFERENCES guest (guest_id),
@@ -40,7 +40,7 @@ ALTER TABLE reservation MODIFY COLUMN reservation_id INT NOT NULL AUTO_INCREMENT
 
 DROP TABLE IF EXISTS `payment`;
 CREATE TABLE payment(
-   payment_id         INTEGER         not null,
+   payment_id         INTEGER         not null AUTO_INCREMENT,
    credit_card        VARCHAR(18)     not null,
    expiration_date    DATE            not null,
    amount_due         DOUBLE          not null,
@@ -61,7 +61,7 @@ CREATE TABLE room_reserved (
 
 
 INSERT INTO guest (guest_id, first_name, last_name, email) 
-VALUES (10001, "Jun", "Ma", "jun@gmail.com");
+VALUES (10001, 'Jun', 'Ma', 'jun@gmail.com');
 
 INSERT INTO room ( room_id, room_type, tv, hot_tub, rate) 
 VALUES 
@@ -84,8 +84,8 @@ VALUES
 INSERT INTO payment (payment_id, credit_card, expiration_date, amount_due, paid)
 VALUES (30001, "1234567890123456", "2018-09-01", 460.2, false);
 
-INSERT INTO reservation (reservation_id, room_id, guest_id, phone, arrive, depart, cost, status, payment_due, payment_id) 
-VALUES (20001, 101, 10001, '4151111134', '2018-06-10', '2018-06-12', 460.2, 'available', '2018-06-10', 30001);
+INSERT INTO reservation (reservation_id, room_id, guest_id, phone, arrive, depart, cost, r_status, payment_due, payment_id) 
+VALUES (20001, 101, 10001, '4151111134', '2018-06-10', '2018-06-12', 460.2, 'pending', '2018-06-11', 30001);
 
 INSERT INTO room_reserved (room_id, start_date, end_date) 
 VALUES (101, '2018-06-10', '2018-06-12');
