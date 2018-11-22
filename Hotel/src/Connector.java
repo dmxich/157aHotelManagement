@@ -242,12 +242,9 @@ public class Connector
 			cstmt.setInt(12,p_id);
 
 			boolean hasResult = cstmt.execute();
+
+			System.out.println("Failed to make a reservation.\n");
 			
-			if(hasResult) {
-				System.out.println("Reservation is made.\n");
-			}else {
-				System.out.println("Failed to make a reservation.\n");
-			}
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}	
