@@ -292,11 +292,60 @@ public class Connector
 				System.out.println("Reservation is paid.\n");
 
 			}
-
-
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	//Jun, #10
+	public void updatePayment() {
+		System.out.println("<===== Update payment of reservation number =====>");
+		Scanner scanner = new Scanner(System.in);
+		int r_id = 0;
+		String card_number = "";
+		java.sql.Date e_date;
+		
+	//validate the reservation id
+		boolean isValid = false;
+		while(!isValid)
+		{
+			System.out.println("\nPlease enter Reservation ID #:");
+			r_id = Integer.parseInt(scanner.nextLine());
+			
+		//validating the guest id
+			String s = "SELECT * FROM reservation WHERE reservation_id = ?";
+			try {
+				PreparedStatement pstmt = conn.prepareStatement(s);
+				pstmt.setInt(1, r_id);
+				
+				ResultSet rs = pstmt.executeQuery();
+				if(!rs.next()) {
+					System.out.print("Reservation number " + r_id + " is invalid.");
+				}else {
+					isValid = true;
+				}
+			} catch ( SQLException e2) {
+				e2.printStackTrace();
+			}
+		}
+		
+		System.out.println("Please enter a new card number:");
+		card_number = scanner.nextLine();
+		
+		System.out.println("Please enter the expiration date (YYYY-MM-DD) of the new card:");
+		e_date = java.sql.Date.valueOf(scanner.nextLine());
+		
+		try {
+			String sql = "{call spUpdatePayment(?, ?, ?)}";
+			java.sql.CallableStatement cstmt = conn.prepareCall(sql);
+			cstmt.setInt(1, r_id);
+			cstmt.setString(2, card_number);
+			cstmt.setDate(3, e_date);
+			cstmt.executeQuery();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	//Jun, function #14

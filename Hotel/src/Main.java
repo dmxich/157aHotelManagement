@@ -71,7 +71,8 @@ public class Main{
 	    	            c.makePayment();
 	    	            break;
 	    	        case "10": 
-	    	             
+	    	        	//Update payment using reservation number
+	    	        	c.updatePayment();
 	    	            break;
 	    	        case "11": 
 	    	        	c.ListGuestsThatOweMoney();
