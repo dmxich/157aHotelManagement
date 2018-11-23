@@ -346,6 +346,8 @@ public class Connector
 			e.printStackTrace();
 		}
 		
+		System.out.println("Payment method information of reservation " + r_id + " has been updated.");
+		
 	}
 	
 	//Jun, function #14
