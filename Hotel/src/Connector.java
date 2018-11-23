@@ -125,7 +125,6 @@ public class Connector
 			String status = "";
 			String card_number = "";
 			
-			
 			//validate dates and room conflict
 //			boolean isConflict = true;
 //			while (isConflict) {
@@ -197,10 +196,10 @@ public class Connector
 			amount = cost;
 			System.out.println("Rate: $" + rate+" per night.");
 
+		//get guest id and validate user
 			boolean isValidGuest = false;
 			while(!isValidGuest)
 			{
-			//get guest id
 				System.out.println("\nPlease enter Guest ID #:");
 				g_id = Integer.parseInt(scanner.nextLine());
 				
@@ -300,8 +299,72 @@ public class Connector
 		}
 	}
 	
+	//Jun, function #14
+	public void listGuestsOnArriveDate() {
+		System.out.println("<===== List guests arriving on a specific date =====>");
+		System.out.println("Please enter the Arrive Date (YYYY-MM-DD)");
+		
+		Scanner scanner = new Scanner(System.in);
+		java.sql.Date arrivalDate = java.sql.Date.valueOf(scanner.nextLine());
+		
+		String sql = "SELECT first_name, last_name\n"
+					+ "FROM guest G, reservation R\n"
+					+ "WHERE G.guest_id = R.guest_id and R.arrive = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setDate(1, arrivalDate);
+			pstmt.executeQuery();
+			ResultSet rs = pstmt.getResultSet();
+			
+			if(rs.next() == false) {
+				System.out.println("There is no guest arrive on " + arrivalDate);
+			}else {
+				System.out.println("The guests who arrive on " + arrivalDate + " are listed below:");
+				int i = 1;
+				do {
+					System.out.println(" " + i + ".  " + rs.getString("last_name") + ", " + rs.getString("first_name") ); 
+					i++;
+				} while (rs.next());
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//Jun, function #15
+	public void listGuestsOnCheckoutDate() {
+		System.out.println("<===== List guests checkout on a specific date =====>");
+		System.out.println("Please enter the Checkout Date (YYYY-MM-DD)");
+		
+		Scanner scanner = new Scanner(System.in);
+		java.sql.Date checkoutDate = java.sql.Date.valueOf(scanner.nextLine());
+		
+		String sql = "SELECT first_name, last_name\n"
+					+ "FROM guest G, reservation R\n"
+					+ "WHERE G.guest_id = R.guest_id and R.depart = ?";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setDate(1, checkoutDate);
+			pstmt.executeQuery();
+			ResultSet rs = pstmt.getResultSet();
+			
+			if(rs.next() == false) {
+				System.out.println("There is no guest arrive on " + checkoutDate);
+			}else {
+				System.out.println("The guests who checkout on " + checkoutDate + " are listed below:");
+				int i = 1;
+				do {
+					System.out.println(" " + i + ".  " + rs.getString("last_name") + ", " + rs.getString("first_name") ); 
+					i++;
+				} while (rs.next());
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	//Jun, function #16
-	public void RegisterGuest() {
+	public void registerGuest() {
 		System.out.println("\n<===== Register a new guest =====>");
 		String last_name , first_name, email;
 		int guest_id = 0;

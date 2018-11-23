@@ -84,13 +84,13 @@ public class Main{
 	    	             
 	    	            break;
 	    	        case "14": 
-	    	             
+	    	            c.listGuestsOnArriveDate();
 	    	            break;
 	    	        case "15": 
-	    	             
+	    	            c.listGuestsOnCheckoutDate();
 	    	            break;
 	    	        case "16": 
-	    	            c.RegisterGuest();
+	    	            c.registerGuest();
 	    	            break;
 	    	        case "17": 
 	    	             
