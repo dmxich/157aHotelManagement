@@ -65,7 +65,7 @@ public class Connector
 			System.out.println("Name: " + rs.getString("first_name") + " " + rs.getString("last_name") + ", Amount Owed: $ " + rs.getDouble("amnt")); 
 		}
 	}
-	public void ListTakenRooms(){
+	public void listAvailableRooms(){
 		ResultSet rs = null;
 		System.out.println("Available Rooms");
 		try {
@@ -96,6 +96,32 @@ public class Connector
 			System.out.println("Name: " + rs.getString("first_name") + " " + rs.getString("last_name")+ " Room Number: "+ rs.getString("room_id") + " Start Date: " + rs.getDate("arrive") + " End Date: "+ rs.getDate("depart") ); 
 		}
 	}
+	
+	//delete room
+	public void deleteRoom()
+	{
+		ResultSet rs = null;
+		String roomId;
+		Scanner scan = new Scanner(System.in);
+		
+		listAvailableRooms();
+		System.out.println("Enter the id of the room you want to delete:");
+		roomId = scan.nextLine();
+		try {
+			String sqlQuery =  "DELETE FROM room WHERE room_id = '" + roomId + "' AND room_id NOT IN "
+					+ "(SELECT room_id from room_reserved where room_id = room.room_id);";
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate(sqlQuery);
+			
+			
+			System.out.println("Room is deleted successfully.");
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	
 	//find the difference of days between 2 days.
 	public static int daysBetween(Date d1, Date d2) {
