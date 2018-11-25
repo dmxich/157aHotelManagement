@@ -202,8 +202,8 @@ public class Connector
 		Scanner scanner = new Scanner(System. in); 
 
 		try {
-			java.sql.Date arrive, depart, payment_due, expiration;
-			int rm_id, g_id = 0;
+			java.sql.Date arrive = null, depart = null, payment_due, expiration;
+			int rm_id = 0, g_id = 0;
 			int p_id = 0;
 			String phone = "";
 			double cost = 0;
@@ -212,8 +212,8 @@ public class Connector
 			String card_number = "";
 			
 			//validate dates and room conflict
-//			boolean isConflict = true;
-//			while (isConflict) {
+			boolean isConflict = true;
+			while (isConflict) {
 				//enter room number
 				System.out.println("Please enter the room number you want:");
 				rm_id = Integer.parseInt(scanner.nextLine());
@@ -225,42 +225,38 @@ public class Connector
 				//enter depart date
 				System.out.println("Please enter the Depart Data in format \"YYYY-MM-DD\":");
 				depart = java.sql.Date.valueOf(scanner.nextLine());
-//				
-//
-//				//validate the date conflict
-//				ResultSet rs = null;
-//				
-//				
-//				String s = "SELECT *\n" + 
-//						"FROM room_reserved\n" + 
-//						"WHERE ? NOT IN\n" + 
-//						"(SELECT room_id \n" + 
-//						" FROM room_reserved\n" + 
-//						" WHERE\n" + 
-//						"   (start_date <= ? AND end_date >= ?) OR\n" + 
-//						"   (start_date <= ? AND end_date >= ?) OR\n" + 
-//						"   (start_date >= ? AND end_date <= ?))";
-//				
-//				PreparedStatement pstmt = conn.prepareStatement( s );
-//				pstmt.setInt(1, rm_id);
-//				pstmt.setDate(2, arrive);
-//				pstmt.setDate(3, arrive);
-//				pstmt.setDate(4, depart);
-//				pstmt.setDate(5, depart);
-//				pstmt.setDate(6, arrive);
-//				pstmt.setDate(7, depart);
-//				
-//				rs = pstmt.executeQuery( s );
-//				
-//				System.out.print("Testing ---> " + rs);
-//				
-//				if(rs == null) {
-//					isConflict = false;
-//				}else {
-//					System.out.println("We found you enter room and date conflict with other booking.\n"
-//							+ "Please re-enter.\n");
-//				}
-//			}
+				
+
+				//validate the date conflict
+				ResultSet rs = null;
+				
+				
+				String s = "SELECT room_id \n" + 
+						" FROM room_reserved\n" + 
+						" WHERE\n" + 
+						" 	room_id = ? AND \n" +
+						"   ((start_date <= ? AND end_date >= ?) OR\n" + 
+						"   (start_date <= ? AND end_date >= ?) OR\n" + 
+						"   (start_date >= ? AND end_date <= ?))";
+				
+				PreparedStatement pstmt = conn.prepareStatement( s );
+				pstmt.setInt(1, rm_id);
+				pstmt.setDate(2, arrive);
+				pstmt.setDate(3, arrive);
+				pstmt.setDate(4, depart);
+				pstmt.setDate(5, depart);
+				pstmt.setDate(6, arrive);
+				pstmt.setDate(7, depart);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next() == false) {	// if result is empty
+					isConflict = false;
+				}else {
+					System.out.println("We found you enter room and date conflict with other booking.\n"
+							+ "Please re-enter.\n");
+				}
+			}
 				
 		//calculate the days
 			int days = daysBetween(arrive, depart);
@@ -344,7 +340,7 @@ public class Connector
 
 			boolean hasResult = cstmt.execute();
 
-			System.out.println("Failed to make a reservation.\n");
+			System.out.println("A new reservation made.\n");
 			
 		} catch (SQLException e1) {
 			e1.printStackTrace();
