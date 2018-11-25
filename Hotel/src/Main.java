@@ -6,7 +6,7 @@ import javax.sql.DataSource;
 import java.util.Scanner;
 
 public class Main{
-	 public static void main (String [] args)
+	 public static void main (String [] args) throws SQLException
 	 {
 	        DataSource ds = DataSourceFactory.getMySQLDataSource();     
 	       
@@ -36,7 +36,7 @@ public class Main{
 	    	            c.makeReservation();
 	    	            break; 
 	    	        case "2": 
-	    	             
+	    	             c.changeRoom();
 	    	            break;
 	    	        case "3": 
 	    	             

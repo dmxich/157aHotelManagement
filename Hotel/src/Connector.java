@@ -97,7 +97,67 @@ public class Connector
 		}
 	}
 	
-	//delete room
+	//Dmitriy, function #2
+	public void changeRoom() throws SQLException
+	{
+		ResultSet rs = null;
+		
+		conn.setAutoCommit(false);
+		statement = conn.createStatement();
+		int roomId;
+		boolean tv;
+		boolean hotTub;
+		String type = "";
+		Double rate = 0.0;
+		Scanner scan = new Scanner(System.in);
+		
+		System.out.println("Listing all possible rooms to change");
+		listAvailableRooms();
+		
+		
+		System.out.println("Enter the ID of the room you want to change :");
+		roomId = scan.nextInt();
+		
+		//enter new value for TV
+		System.out.println("Enter new value for tv :");
+		tv  = scan.nextBoolean();
+		int tvInt = tv ? 1 : 0; //MySQL only allows to insert 1 or 0, so we need to convert to int
+		
+		//Enter new value for hot tub  
+		System.out.println("Enter new value for hot tub :");
+		hotTub  = scan.nextBoolean();
+		int hotTubInt = hotTub ? 1 : 0; //MySQL only allows to insert 1 or 0, so we need to convert to int 
+		
+		//enter new value for type
+		System.out.println("Enter new value for type :");
+		type = scan.next();
+		
+		//enter new value for rate
+		System.out.println("Enter new value for rate :");
+		rate = scan.nextDouble();
+		
+		
+		String updRoom1 = "UPDATE room SET tv = '" + tvInt + "' WHERE room_id = '" + roomId +"'";
+		String updRoom2 = "UPDATE room SET hot_tub = '" + hotTubInt + "' WHERE room_id = '" + roomId + "'";
+		String updRoom3 = "UPDATE room SET room_type = '" + type + "' WHERE room_id = '" + roomId + "'";
+		String updRoom4 = "UPDATE room SET rate = '" + rate + "' WHERE room_id = '" + roomId + "'";
+		
+		statement.addBatch(updRoom1);
+		statement.addBatch(updRoom2);
+		statement.addBatch(updRoom3);
+		statement.addBatch(updRoom4);
+		  
+		statement.executeBatch(); 
+		
+
+		conn.commit();
+		
+	}
+	
+	//Dmitriy, function #3
+	
+	
+	//Dmitriy, function #8
 	public void deleteRoom()
 	{
 		ResultSet rs = null;
