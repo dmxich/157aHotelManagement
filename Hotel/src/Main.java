@@ -29,7 +29,7 @@ public class Main{
 	    			Menu m = new Menu();
 	    			System.out.println("Please enter the number of function from above:");
 	    			Scanner scanner = new Scanner(System. in); 
-	    			String input = scanner. nextLine();
+	    			String input = scanner.nextLine();
 	    			
 	    	        switch (input) { 
 	    	        case "1": 
@@ -80,10 +80,10 @@ public class Main{
 	    	            c.listGuestsOnCheckoutDate();
 	    	            break;
 	    	        case "16": 
-	    	            c.registerGuest();
+	    	            c.registerRegualUser();
 	    	            break;
 	    	        case "17": 
-	    	             
+	    	        	c.registerAdminUser();
 	    	            break;
 	    	        case "18": 
 	    	             

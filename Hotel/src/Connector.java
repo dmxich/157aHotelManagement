@@ -286,7 +286,7 @@ public class Connector
 				g_id = Integer.parseInt(scanner.nextLine());
 				
 			//validating the guest id
-				sql = "SELECT * FROM guest WHERE guest_id = ?";
+				sql = "SELECT * FROM user WHERE user_id = ? and isAdmin = false;";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, g_id);
 				
@@ -442,7 +442,7 @@ public class Connector
 		
 		String sql = "SELECT first_name, last_name\n"
 					+ "FROM guest G, reservation R\n"
-					+ "WHERE G.guest_id = R.guest_id and R.arrive = ?";
+					+ "WHERE G.user_id = R.user_id and R.arrive = ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setDate(1, arrivalDate);
@@ -473,8 +473,8 @@ public class Connector
 		java.sql.Date checkoutDate = java.sql.Date.valueOf(scanner.nextLine());
 		
 		String sql = "SELECT first_name, last_name\n"
-					+ "FROM guest G, reservation R\n"
-					+ "WHERE G.guest_id = R.guest_id and R.depart = ?";
+					+ "FROM user U, reservation R\n"
+					+ "WHERE U.user_id = R.user_id and R.depart = ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setDate(1, checkoutDate);
@@ -497,11 +497,12 @@ public class Connector
 	}
 	
 	//Jun, function #16
-	public void registerGuest() {
-		System.out.println("\n<===== Register a new guest =====>");
+	public void registerRegualUser() {
+		System.out.println("\n<===== Register a new user =====>");
 		String last_name , first_name, email;
-		int guest_id = 0;
+		int user_id = 0;
 		boolean isValid = true;
+		boolean isAdmin = false;
 		Scanner scanner = new Scanner(System. in); 
 		
 		System.out.println("Please enter a new guest Last Name:");		
@@ -510,14 +511,18 @@ public class Connector
 		first_name = scanner.nextLine();
 		System.out.println("Please enter a new guest Email Address:");		
 		email = scanner.nextLine();
+		System.out.println("Please enter a password:");		
+		 String pw = scanner.nextLine();
 		
 		try {
-			String sql = "INSERT INTO guest (first_name, last_name, email)" + 
-					"VALUES (?, ?, ?);";
+			String sql = "INSERT INTO user (first_name, last_name, email, isAdmin, password)" + 
+					"VALUES (?, ?, ?, ?, ?);";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1,  first_name);
 			pstmt.setString(2,  last_name);
 			pstmt.setString(3,  email);
+			pstmt.setBoolean(4,  isAdmin);
+			pstmt.setString(5,  pw);
 			pstmt.executeUpdate();
 		}catch (SQLException e) {
 			e.printStackTrace();
@@ -527,13 +532,61 @@ public class Connector
 		System.out.println(first_name + " " + last_name + " has been added to system.");
 		try {
 			Statement stmt = conn.createStatement();
-			String sql = "SELECT guest_id FROM guest ORDER BY guest_id DESC LIMIT 1;";			
+			String sql = "SELECT user_id FROM user ORDER BY user_id DESC LIMIT 1;";			
 			ResultSet rs = stmt.executeQuery(sql);
 			while(rs.next())
 			{
-				guest_id = rs.getInt("guest_id");
+				user_id = rs.getInt("user_id");
 			}
-			System.out.println("Guest ID: " + guest_id);
+			System.out.println("User ID: " + user_id);
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//Jun, function #16
+	public void registerAdminUser() {
+		System.out.println("\n<===== Register a new Admin User =====>");
+		String last_name , first_name, email;
+		int user_id = 0;
+		boolean isValid = true;
+		boolean isAdmin = true;
+		Scanner scanner = new Scanner(System. in); 
+		
+		System.out.println("Please enter the Last Name:");		
+		last_name = scanner.nextLine();
+		System.out.println("Please enter the First Name:");		
+		first_name = scanner.nextLine();
+		System.out.println("Please enter the Email Address:");		
+		email = scanner.nextLine();
+		System.out.println("Please enter a password:");		
+		 String pw = scanner.nextLine();
+		
+		try {
+			String sql = "INSERT INTO user (first_name, last_name, email, isAdmin, password)" + 
+					"VALUES (?, ?, ?, ?, ?);";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,  first_name);
+			pstmt.setString(2,  last_name);
+			pstmt.setString(3,  email);
+			pstmt.setBoolean(4,  isAdmin);
+			pstmt.setString(5,  pw);
+			pstmt.executeUpdate();
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		//show the last guest id
+		System.out.println(first_name + " " + last_name + " has been added to system.");
+		try {
+			Statement stmt = conn.createStatement();
+			String sql = "SELECT user_id FROM user ORDER BY user_id DESC LIMIT 1;";			
+			ResultSet rs = stmt.executeQuery(sql);
+			while(rs.next())
+			{
+				user_id = rs.getInt("user_id");
+			}
+			System.out.println("User ID: " + user_id);
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
