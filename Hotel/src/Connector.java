@@ -182,6 +182,37 @@ public class Connector
 		}
 	}
 	
+	//user login
+	public void login() {
+    	//Authentication
+		boolean isValidUser = false;
+		while(!isValidUser){
+			Scanner scanner = new Scanner(System.in);
+			System.out.println("\nPlease enter User ID #:");
+			int u_id = Integer.parseInt(scanner.nextLine());
+			System.out.println("\nPlease enter password:");
+			String pw = scanner.nextLine();
+			
+		//validating the guest id
+			try {
+				String sql = "SELECT * FROM user WHERE user_id = ? and password = ?;";
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, u_id);
+				pstmt.setString(2, pw);
+				
+				ResultSet rs = pstmt.executeQuery();
+				if(!rs.next()) {
+					System.out.print("Fail to login with user id " + u_id);
+				}else {
+					isValidUser = true;
+					// need to set date to a user object
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
+	}
 	
 	//find the difference of days between 2 days.
 	public static int daysBetween(Date d1, Date d2) {
@@ -278,7 +309,7 @@ public class Connector
 			amount = cost;
 			System.out.println("Rate: $" + rate+" per night.");
 
-		//get guest id and validate user
+		//get user id and validate user
 			boolean isValidGuest = false;
 			while(!isValidGuest)
 			{

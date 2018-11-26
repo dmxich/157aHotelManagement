@@ -31,6 +31,8 @@ public class Main{
 	    			Scanner scanner = new Scanner(System. in); 
 	    			String input = scanner.nextLine();
 	    			
+	    			c.login();
+	    			
 	    	        switch (input) { 
 	    	        case "1": 
 	    	            c.makeReservation();
