@@ -35,6 +35,7 @@ class DataSourceFactory {
 
 public class Connector 
 {
+	private User user;
 	private Connection conn;
 	private Statement statement;
 	public Connector(Connection connection){
@@ -183,7 +184,7 @@ public class Connector
 	}
 	
 	//user login
-	public void login() {
+	public User login() {
     	//Authentication
 		boolean isValidUser = false;
 		while(!isValidUser){
@@ -206,13 +207,28 @@ public class Connector
 				}else {
 					isValidUser = true;
 					// need to set date to a user object
-					User user = new User();
+					user = new User();
+					Statement stmt = conn.createStatement();
+					sql = "SELECT * from user where user_id = ?";
+					PreparedStatement ps = conn.prepareStatement(sql);
+					ps.setInt(1, u_id);
+					
+					ResultSet rs1 = ps.executeQuery();
+					while(rs1.next())
+					{
+						user.setAdmin(rs1.getBoolean("isAdmin"));
+						user.setEmail(rs1.getString("email"));
+						user.setFirst_name(rs1.getString("first_name"));
+						user.setLast_name(rs1.getString("last_name"));
+						user.setUser_id(rs1.getInt("user_id"));
+					}
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 
 		}
+		return user;
 	}
 	
 	//find the difference of days between 2 days.
@@ -258,10 +274,8 @@ public class Connector
 				System.out.println("Please enter the Depart Data in format \"YYYY-MM-DD\":");
 				depart = java.sql.Date.valueOf(scanner.nextLine());
 				
-
 				//validate the date conflict
 				ResultSet rs = null;
-				
 				
 				String s = "SELECT room_id \n" + 
 						" FROM room_reserved\n" + 

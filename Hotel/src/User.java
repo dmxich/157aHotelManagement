@@ -5,7 +5,6 @@ public class User {
 	String last_name;
 	String email;
 	boolean isAdmin;
-	String password;
 	
 	public User(int u_id, String f_name, String l_name, String email, boolean isAdmin, String password) {
 		this.user_id = u_id;
@@ -13,7 +12,6 @@ public class User {
 		this.last_name = l_name;
 		this.email = email;
 		this.isAdmin = isAdmin;
-		this.password = password;
 	}
 	
 	public User() {
@@ -22,7 +20,6 @@ public class User {
 		this.last_name = "";
 		this.email = "";
 		this.isAdmin = false;
-		this.password = "";
 	}
 
 	public int getUser_id() {
@@ -65,12 +62,12 @@ public class User {
 		this.isAdmin = isAdmin;
 	}
 
-	public String getPassword() {
-		return password;
+	@Override
+	public String toString() {
+		return "User [user_id=" + user_id + ", first_name=" + first_name + ", last_name=" + last_name + ", email="
+				+ email + ", isAdmin=" + isAdmin + "]";
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+
 
 }

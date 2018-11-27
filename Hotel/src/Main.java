@@ -24,14 +24,15 @@ public class Main{
 	    		boolean isOn = true;
 	    		
 		    	Connector c = new Connector(connection);
+		    	User user = c.login();
+		    	
+		    	System.out.println(user);
 		    	
 	    		while (isOn) {
 	    			Menu m = new Menu();
 	    			System.out.println("Please enter the number of function from above:");
 	    			Scanner scanner = new Scanner(System. in); 
 	    			String input = scanner.nextLine();
-	    			
-	    			c.login();
 	    			
 	    	        switch (input) { 
 	    	        case "1": 
