@@ -15,6 +15,15 @@ public class User {
 		this.isAdmin = isAdmin;
 		this.password = password;
 	}
+	
+	public User() {
+		this.user_id = 0;
+		this.first_name = "";
+		this.last_name = "";
+		this.email = "";
+		this.isAdmin = false;
+		this.password = "";
+	}
 
 	public int getUser_id() {
 		return user_id;

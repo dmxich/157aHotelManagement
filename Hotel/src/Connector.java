@@ -206,6 +206,7 @@ public class Connector
 				}else {
 					isValidUser = true;
 					// need to set date to a user object
+					User user = new User();
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
