@@ -203,7 +203,7 @@ public class Connector
 				
 				ResultSet rs = pstmt.executeQuery();
 				if(!rs.next()) {
-					System.out.print("Fail to login with user id " + u_id);
+					System.out.print("Fail to login with user id " + u_id + "\n");
 				}else {
 					isValidUser = true;
 					// need to set date to a user object
@@ -251,7 +251,7 @@ public class Connector
 
 		try {
 			java.sql.Date arrive = null, depart = null, payment_due, expiration;
-			int rm_id = 0, g_id = 0;
+			int rm_id = 0, g_id = user.getUser_id();
 			int p_id = 0;
 			String phone = "";
 			double cost = 0;
@@ -328,8 +328,6 @@ public class Connector
 			boolean isValidGuest = false;
 			while(!isValidGuest)
 			{
-				System.out.println("\nPlease enter Guest ID #:");
-				g_id = Integer.parseInt(scanner.nextLine());
 				
 			//validating the guest id
 				sql = "SELECT * FROM user WHERE user_id = ? and isAdmin = false;";

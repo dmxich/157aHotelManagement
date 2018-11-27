@@ -26,7 +26,7 @@ public class Main{
 		    	Connector c = new Connector(connection);
 		    	User user = c.login();
 		    	
-		    	System.out.println(user);
+		    	System.out.println("\nHi, " + user.getFirst_name() + " " + user.getLast_name());
 		    	
 	    		while (isOn) {
 	    			Menu m = new Menu();
