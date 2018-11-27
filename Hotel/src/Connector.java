@@ -635,5 +635,180 @@ public class Connector
 			e.printStackTrace();
 		}
 	}
+	
+	//Jun, for admin account
+	public void makeReservationAsAdmin() {
+		
+		System.out.println("\n<===== Make a reservation for a customer =====>");
+		Scanner scanner = new Scanner(System. in); 
+
+		try {
+			java.sql.Date arrive = null, depart = null, payment_due, expiration;
+			int rm_id = 0, g_id = 0;
+			int p_id = 0;
+			String phone = "";
+			double cost = 0;
+			double amount = 0;
+			String status = "";
+			String card_number = "";
+			
+			//validate dates and room conflict
+			boolean isConflict = true;
+			while (isConflict) {
+				//enter room number
+				System.out.println("Please enter the room number you want:");
+				rm_id = Integer.parseInt(scanner.nextLine());
+				
+				//enter arrive date
+				System.out.println("Please enter the Arrival Data in format \"YYYY-MM-DD\":");
+				arrive = java.sql.Date.valueOf(scanner.nextLine());
+				
+				//enter depart date
+				System.out.println("Please enter the Depart Data in format \"YYYY-MM-DD\":");
+				depart = java.sql.Date.valueOf(scanner.nextLine());
+				
+				//validate the date conflict
+				ResultSet rs = null;
+				
+				String s = "SELECT room_id \n" + 
+						" FROM room_reserved\n" + 
+						" WHERE\n" + 
+						" 	room_id = ? AND \n" +
+						"   ((start_date <= ? AND end_date >= ?) OR\n" + 
+						"   (start_date <= ? AND end_date >= ?) OR\n" + 
+						"   (start_date >= ? AND end_date <= ?))";
+				
+				PreparedStatement pstmt = conn.prepareStatement( s );
+				pstmt.setInt(1, rm_id);
+				pstmt.setDate(2, arrive);
+				pstmt.setDate(3, arrive);
+				pstmt.setDate(4, depart);
+				pstmt.setDate(5, depart);
+				pstmt.setDate(6, arrive);
+				pstmt.setDate(7, depart);
+				
+				rs = pstmt.executeQuery();
+				
+				if(rs.next() == false) {	// if result is empty
+					isConflict = false;
+				}else {
+					System.out.println("We found you enter room and date conflict with other booking.\n"
+							+ "Please re-enter.\n");
+				}
+			}
+				
+		//calculate the days
+			int days = daysBetween(arrive, depart);
+			System.out.println("Number of nights stay: " + days);
+			
+		//calculate the cost
+			Statement stmt = conn.createStatement();
+			String sql = "SELECT rate from room where room_id = ?";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, rm_id);
+			
+			ResultSet resultSet = pstmt.executeQuery();
+			double rate = 0;
+			while(resultSet.next())
+			{
+				rate = resultSet.getDouble("rate");
+			}
+			cost = rate * days;
+			amount = cost;
+			System.out.println("Rate: $" + rate+" per night.");
+
+		//get user id and validate user
+			boolean isValidGuest = false;
+			while(!isValidGuest)
+			{
+				
+			//validating the guest id
+				System.out.println("Please enter guest ID:");
+				g_id = Integer.parseInt(scanner.nextLine());
+				sql = "SELECT * FROM user WHERE user_id = ? and isAdmin = false;";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, g_id);
+				
+				ResultSet rs = pstmt.executeQuery();
+				if(!rs.next()) {
+					System.out.print("Guest number " + g_id + " is invalid.");
+				}else {
+					isValidGuest = true;
+				}
+			}
+			
+		// enter phone number
+			System.out.println("\nPlease enter phone #:");
+			phone = scanner.nextLine();
+			
+			status = "pending";
+			java.sql.Date todaysDate = new java.sql.Date(new java.util.Date().getTime());
+			payment_due = this.addDays(todaysDate, 1);
+			
+			System.out.println("\nPlease enter credit card #:");
+			card_number = scanner.nextLine();
+			
+			System.out.println("\nPlease enter credit card expiration date (YYYY-MM-DD):");
+			expiration = java.sql.Date.valueOf(scanner.nextLine());
+			
+		//get a new payment id for a new reservation
+			sql = "SELECT payment_id FROM payment ORDER BY payment_id DESC LIMIT 1;\n";			
+			resultSet = stmt.executeQuery(sql);
+			while(resultSet.next())
+			{
+				p_id = resultSet.getInt("payment_id");
+			}
+		//got the latest one and find the next available p_id
+			p_id++;
+			
+			sql = "{call spMakeReservation(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )}";
+			java.sql.CallableStatement cstmt = conn.prepareCall(sql);
+			
+			cstmt.setInt(1,rm_id);
+			cstmt.setInt(2,g_id);
+			cstmt.setString(3,phone);
+			cstmt.setDate(4,arrive);
+			cstmt.setDate(5,depart);
+			cstmt.setDouble(6,cost);
+			cstmt.setString(7,status);
+			cstmt.setDate(8,payment_due);
+			cstmt.setString(9,card_number);
+			cstmt.setDate(10,expiration);
+			cstmt.setDouble(11,amount);
+			cstmt.setInt(12,p_id);
+
+			boolean hasResult = cstmt.execute();
+
+			System.out.println("A new reservation made.\n");
+			
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	//Jun, list all bookings for a login guest
+	public void listMyReservation() {
+		
+		System.out.println("<===== List of your reservations =====>");
+		try {
+			String sql = "SELECT * from "
+					+ "reservation R, room_reserved RR "
+					+ "where R.user_id = ? and RR.room_id = R.room_id and RR.start_date = R.arrive";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, user.getUser_id());
+			
+			ResultSet rs = pstmt.executeQuery();
+			System.out.println("\nRoom id -- Arrive Date -- Depart Date -- Reservation ID" );
+			while(rs.next())
+			{
+				System.out.println("   " + rs.getInt("room_id") + "     "
+						+ rs.getDate("arrive")+ "     "
+						+ rs.getDate("depart")+ "         "
+						+ rs.getInt("reservation_id"));
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	}
 }
 
