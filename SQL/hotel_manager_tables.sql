@@ -155,6 +155,19 @@ END $$
 DELIMITER ;
 
 USE `hotel`;
+DROP procedure IF EXISTS `spListAvailableRoomsByDay`;
+
+DELIMITER $$
+CREATE PROCEDURE spListAvailableRoomsByDay
+(IN in_day DATE)
+BEGIN
+    SELECT * 
+    FROM room 
+    WHERE room.room_id not in (SELECT reservation.room_id FROM reservation WHERE  Date(in_day) Between reservation.arrive and DATE_SUB(reservation.depart, INTERVAL 1 DAY));
+END $$
+DELIMITER ;
+
+USE `hotel`;
 DROP procedure IF EXISTS `spListReservationsByRoom`;
 
 DELIMITER $$
@@ -169,6 +182,22 @@ Begin
 END $$
 DELIMITER ;
 
+
+USE `hotel`;
+DROP procedure IF EXISTS `spListReservationsByGuest`;
+
+DELIMITER $$
+
+USE `hotel`$$
+CREATE PROCEDURE spListReservationsByGuest
+(IN inGuestID INTEGER)
+Begin 
+    Select reservation.room_id, reservation.arrive, reservation.depart
+    FROM reservation 
+    WHERE user_id = inGuestID;
+END $$
+
+DELIMITER ;
 
 INSERT INTO user (user_id, first_name, last_name, email, isAdmin, password) 
 VALUES (10001, 'Jun', 'Ma', 'jun@gmail.com', false, 123456);
