@@ -54,10 +54,10 @@ public class Main{
 		    	             
 		    	            break;
 		    	        case "6": // nick
-		    	             
+		    	        	c.ListAvailableRoomsByDay();
 		    	            break;
 		    	        case "7": //nick
-		    	             
+		    	        	c.listReservationsByGuest();
 		    	            break;
 		    	        case "8": 
 		    	            c.deleteRoom(); 
