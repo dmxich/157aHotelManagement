@@ -112,6 +112,8 @@ public class Connector
 		Double rate = 0.0;
 		Scanner scan = new Scanner(System.in);
 		
+		System.out.println("\n<===== Changing a room =====>");
+		
 		System.out.println("Listing all possible rooms to change");
 		listAvailableRooms();
 		
@@ -165,6 +167,8 @@ public class Connector
 		String roomId;
 		Scanner scan = new Scanner(System.in);
 		
+		
+		System.out.println("\n<===== Deleting a room =====>");
 		listAvailableRooms();
 		System.out.println("Enter the id of the room you want to delete:");
 		roomId = scan.nextLine();
@@ -636,11 +640,72 @@ public class Connector
 		}
 	}
 	
+	//Dmitriy function #5 
+	public void updateReservation() throws SQLException
+	{
+		
+		conn.setAutoCommit(false);
+		Scanner scan = new Scanner(System.in);
+		int roomId = 0;
+		java.sql.Date arrive = null, depart = null;
+		double cost = 0.0;
+		double amount = 0.0;
+				
+		System.out.println("\n<===== Changing a reservation for a customer =====>");
+		System.out.println("Select room you are currently staying in");
+		roomId = Integer.parseInt(scan.nextLine());
+		
+		//enter new arrive date
+		System.out.println("Please enter the new Arrival Date in format \"YYYY-MM-DD\":");
+		arrive = Date.valueOf(scan.nextLine());
+		
+		//enter depart date
+		System.out.println("Please enter the new Departure Date in format \"YYYY-MM-DD\":");
+		depart = Date.valueOf(scan.nextLine());
+		
+		//calculate new days
+		int days = daysBetween(arrive, depart);
+		System.out.println("Number of nights stay: " + days);
+		
+		//calculate the cost
+		Statement stmt = conn.createStatement();
+		String sql = "SELECT rate from room where room_id  = '" + roomId + "'";
+		
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		
+		
+		ResultSet resultSet = pstmt.executeQuery();
+		double rate = 0;
+		while(resultSet.next())
+		{
+			rate = resultSet.getDouble("rate");
+		}
+		cost = rate * days;
+		amount = cost;
+		System.out.println("Rate: $" + rate+" per night.");
+		
+		String updRes1 = "UPDATE reservation SET arrive = '" + arrive + "' WHERE room_id = '" + roomId +"'";
+		String updRes2 = "UPDATE reservation SET depart = '" + depart + "' WHERE room_id = '" + roomId + "'";
+		String updRes3 = "UPDATE reservation SET cost = '" + amount + "' WHERE room_id = '" + roomId + "'";
+		String updRes4 = "UPDATE reservation SET r_status ='pending' WHERE room_id = '" + roomId + "'";
+		
+		statement.addBatch(updRes1);
+		statement.addBatch(updRes2);
+		statement.addBatch(updRes3);
+		statement.addBatch(updRes4);
+		  
+		statement.executeBatch(); 
+		
+		conn.commit();
+		
+		
+	}
+	
 	//Jun, for admin account
 	public void makeReservationAsAdmin() {
 		
 		System.out.println("\n<===== Make a reservation for a customer =====>");
-		Scanner scanner = new Scanner(System. in); 
+		Scanner scanner = new Scanner(System.in); 
 
 		try {
 			java.sql.Date arrive = null, depart = null, payment_due, expiration;
@@ -722,8 +787,8 @@ public class Connector
 			while(!isValidGuest)
 			{
 				
-			//validating the guest id
-				System.out.println("Please enter guest ID:");
+			//validating the user id
+				System.out.println("Please enter user ID:");
 				g_id = Integer.parseInt(scanner.nextLine());
 				sql = "SELECT * FROM user WHERE user_id = ? and isAdmin = false;";
 				pstmt = conn.prepareStatement(sql);
@@ -731,7 +796,7 @@ public class Connector
 				
 				ResultSet rs = pstmt.executeQuery();
 				if(!rs.next()) {
-					System.out.print("Guest number " + g_id + " is invalid.");
+					System.out.print("User number " + g_id + " is invalid.");
 				}else {
 					isValidGuest = true;
 				}
@@ -810,5 +875,7 @@ public class Connector
 			e1.printStackTrace();
 		}
 	}
+	
+	
 }
 

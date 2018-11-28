@@ -51,7 +51,7 @@ public class Main{
 		    	             
 		    	            break;
 		    	        case "5": 
-		    	             
+		    	            c.updateReservation(); 
 		    	            break;
 		    	        case "6": 
 		    	             
