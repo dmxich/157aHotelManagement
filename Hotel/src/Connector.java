@@ -649,7 +649,7 @@ public class Connector
 		}
 	}
 	
-	//Jun, function #16
+	//Jun, function #17
 	public void registerAdminUser() {
 		System.out.println("\n<===== Register a new Admin User =====>");
 		String last_name , first_name, email;
@@ -693,6 +693,26 @@ public class Connector
 			}
 			System.out.println("User ID: " + user_id);
 		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// Jun, admin #18 Show reservations statistic data
+	public void searchAdminUser() {
+		System.out.println("\n<===== Show the room numbers which rate is higher than average rate =====>");
+		
+		String sql = "SELECT room_id, rate\n" + 
+				"FROM room\n" + 
+				"GROUP BY room_id\n" + 
+				"HAVING AVG(rate) > (SELECT AVG(rate) FROM room);";
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			System.out.println("Room # || Rate");
+			while (rs.next()) {
+				System.out.println(" " + rs.getString("room_id") + "     $" + rs.getDouble("rate"));
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
@@ -758,7 +778,7 @@ public class Connector
 		
 	}
 	
-	//Jun, for admin account
+	//Jun, #1, for admin account
 	public void makeReservationAsAdmin() {
 		
 		System.out.println("\n<===== Make a reservation for a customer =====>");
@@ -964,7 +984,7 @@ public class Connector
 			e.printStackTrace();
 		}
 	}
-	//Jun, list all bookings for a login guest
+	//Jun, Guest menu, # 2, list all bookings for a login guest
 	public void listMyReservation() {
 		
 		System.out.println("<===== List of your reservations =====>");
@@ -988,6 +1008,7 @@ public class Connector
 			e1.printStackTrace();
 		}
 	}
+
 	
 	
 }

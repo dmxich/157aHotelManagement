@@ -92,7 +92,7 @@ public class Main{
 		    	        	c.registerAdminUser();
 		    	            break;
 		    	        case "18": 
-		    	             
+		    	            c.searchAdminUser();
 		    	            break;
 		    	        case "exit": 
 		    	            System.out.println("Thank you. See you.");
