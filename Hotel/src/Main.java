@@ -53,11 +53,11 @@ public class Main{
 		    	        case "5": 
 		    	            c.updateReservation(); 
 		    	            break;
-		    	        case "6": 
-		    	             
+		    	        case "6": // nick
+		    	        	c.ListAvailableRoomsByDay();
 		    	            break;
-		    	        case "7": 
-		    	             
+		    	        case "7": //nick
+		    	        	c.listReservationsByGuest();
 		    	            break;
 		    	        case "8": 
 		    	            c.deleteRoom(); 
@@ -73,11 +73,11 @@ public class Main{
 		    	        	c.ListGuestsThatOweMoney();
 		    	             
 		    	            break;
-		    	        case "12": 
-		    	             
+		    	        case "12": //nick
+		    	        	c.listReservationsByRoom();
 		    	            break;
 		    	        case "13": 
-		    	             
+		    	             c.listGuestByRoomNoAndDate();
 		    	            break;
 		    	        case "14": 
 		    	            c.listGuestsOnArriveDate();

@@ -394,7 +394,64 @@ public class Connector
 			e1.printStackTrace();
 		}	
 	}
-	
+	// nick function #6
+	public void ListAvailableRoomsByDay(){
+		System.out.println("\n<===== List Available Rooms by date =====>");
+		System.out.println("Please enter the A Date (YYYY-MM-DD)");
+		
+		Scanner scanner = new Scanner(System.in);
+		java.sql.Date inDay = java.sql.Date.valueOf(scanner.nextLine());
+		
+		String sql = "call spListAvailableRoomsByDay(?);";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setDate(1, inDay);
+			pstmt.executeQuery();
+			ResultSet rs = pstmt.getResultSet();
+			
+			if(rs.next() == false) {
+				System.out.println("There no available rooms on " + inDay);
+			}else {
+				System.out.println("The available rooms on " + inDay + " are listed below:");
+				int i = 1;
+				do {
+					System.out.println(" " + i + ".  Room Number:" + rs.getInt("room_id") + "   Room Type: " + rs.getString("room_type") + "   Rate per night: " + rs.getInt("rate") ); 
+					i++;
+				} while (rs.next());
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	//Nick function #7
+	public void listReservationsByGuest(){
+		System.out.println("\n<===== List all reservations for a guest =====>");
+		System.out.println("Please enter the ID of the Guest");
+		
+		Scanner scanner = new Scanner(System.in);
+		int inGuestID = scanner.nextInt();
+		
+		String sql = "call spListReservationsByGuest(?);";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, inGuestID);
+			pstmt.executeQuery();
+			ResultSet rs = pstmt.getResultSet();
+			
+			if(rs.next() == false) {
+				System.out.println("Guest " + inGuestID + " has made no reservations");
+			}else {
+				System.out.println("Guest "+ inGuestID + " has the following reservations:");
+				int i = 1;
+				do {
+					System.out.println(" " + i + ".  Room Number:" + rs.getInt("room_id") + "   Arrive: " + rs.getDate("arrive") + "   Depart: " + rs.getDate("depart") ); 
+					i++;
+				} while (rs.next());
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	//Jun, function #9
 	public void makePayment() {
 		System.out.println("\n<===== Make Payment =====>");
@@ -851,6 +908,62 @@ public class Connector
 		}
 	}
 	
+	//Nick #13
+	public void listGuestByRoomNoAndDate(){
+		System.out.println("<===== Finds guest that  reserved a room on a specific date =====>");
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("please enter the room number");
+		int rm_id = Integer.parseInt(scanner.nextLine());
+		System.out.println("Please enter the Date (YYYY-MM-DD)");		
+		java.sql.Date queryDate = java.sql.Date.valueOf(scanner.nextLine());
+		
+		String sql = "call spGuestByRoomNoAndDay(?, ?)";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setDate(1, queryDate);
+			pstmt.setInt(2, rm_id);
+
+			pstmt.executeQuery();
+			ResultSet rs = pstmt.getResultSet();
+			
+			if(rs.next() == false) {
+				System.out.println("There is no guest in room " + rm_id +" on "+ queryDate);
+			}else {
+				System.out.println("The guest in room " + rm_id + " is:");
+				do {
+					System.out.println(" Guest: " + rs.getString("last_name") + ", " + rs.getString("first_name") + " UserID: " + rs.getInt("user_id")); 
+				} while (rs.next());
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	//Nick 12
+	public void listReservationsByRoom(){
+		System.out.println("<===== Finds guest that  reserved a room on a specific date =====>");
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("please enter the room number");
+		int rm_id = Integer.parseInt(scanner.nextLine());
+		
+		String sql = "call spListReservationsByRoom(?)";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, rm_id);
+			pstmt.executeQuery();
+			ResultSet rs = pstmt.getResultSet();
+			
+			if(rs.next() == false) {
+				System.out.println("There are no guest in room " + rm_id);
+			}else {
+				System.out.println("The following guests have reserved " + rm_id + " :");
+				do {
+					System.out.println(" Guest: " + rs.getString("last_name") + ", " + rs.getString("first_name") + " UserID: " + rs.getInt("user_id") + " Arrive: "+ rs.getDate("arrive") + " Depart: " +rs.getDate("depart")); 
+				} while (rs.next());
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	//Jun, list all bookings for a login guest
 	public void listMyReservation() {
 		
