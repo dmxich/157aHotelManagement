@@ -53,10 +53,10 @@ public class Main{
 		    	        case "5": 
 		    	             
 		    	            break;
-		    	        case "6": 
+		    	        case "6": // nick
 		    	             
 		    	            break;
-		    	        case "7": 
+		    	        case "7": //nick
 		    	             
 		    	            break;
 		    	        case "8": 
@@ -73,11 +73,11 @@ public class Main{
 		    	        	c.ListGuestsThatOweMoney();
 		    	             
 		    	            break;
-		    	        case "12": 
-		    	             
+		    	        case "12": //nick
+		    	        	c.listReservationsByRoom();
 		    	            break;
 		    	        case "13": 
-		    	             
+		    	             c.listGuestByRoomNoAndDate();
 		    	            break;
 		    	        case "14": 
 		    	            c.listGuestsOnArriveDate();
