@@ -717,6 +717,39 @@ public class Connector
 		}
 	}
 	
+	//Dmitriy function #4
+	public void cancelReservation() throws SQLException
+	{
+		conn.setAutoCommit(false);
+		Statement delstmt = conn.createStatement();
+		Scanner scan = new Scanner(System.in);
+		int roomId = 0;
+		int reservId = 0;
+		
+		System.out.println("\n<===== Deleting reservation for a customer =====>");
+		System.out.println("Select the room you want to delete reservation for :");
+		roomId = Integer.parseInt(scan.nextLine());
+		System.out.println("Printing all reservations for this room :");
+		listReservationByRoomId(roomId);
+		System.out.println("Select the reservation_id you want to delete :");
+		reservId = Integer.parseInt(scan.nextLine());
+		
+		
+		
+		String sqlDelete1  = "DELETE FROM reservation where room_id = ' "+ roomId +"'and reservation_id = '" + reservId + "';";
+		String sqlDelete2 =  "DELETE FROM room_reserved where room_id = ' "+ roomId +"';";
+		
+		statement.addBatch(sqlDelete1);
+		statement.addBatch(sqlDelete2);
+		
+		  
+		statement.executeBatch(); 
+		
+		conn.commit();
+		
+		
+	}
+	
 	//Dmitriy function #5 
 	public void updateReservation() throws SQLException
 	{
@@ -1008,6 +1041,31 @@ public class Connector
 			e1.printStackTrace();
 		}
 	}
+	
+	
+	public void listReservationByRoomId(int roomId)
+	{
+		Statement stmt = null;
+		ResultSet rs = null;
+		try {
+			String sql = "SELECT * FROM reservation WHERE room_id = '" + roomId + "'";
+			stmt = conn.createStatement();
+			
+			
+			rs = stmt.executeQuery(sql);
+			System.out.println("\nRoom id -- Arrive Date -- Depart Date -- Reservation ID" );
+			while(rs.next())
+			{
+				System.out.println("   " + rs.getInt("room_id") + "     "
+						+ rs.getDate("arrive")+ "     "
+						+ rs.getDate("depart")+ "         "
+						+ rs.getInt("reservation_id"));
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+	}
+	
 
 	
 	
