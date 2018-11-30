@@ -725,6 +725,7 @@ public class Connector
 		Scanner scan = new Scanner(System.in);
 		int roomId = 0;
 		int reservId = 0;
+		java.sql.Date depDate = null;
 		
 		System.out.println("\n<===== Deleting reservation for a customer =====>");
 		System.out.println("Select the room you want to delete reservation for :");
@@ -735,9 +736,12 @@ public class Connector
 		reservId = Integer.parseInt(scan.nextLine());
 		
 		
+		System.out.println("Please enter your Departure Date in format \"YYYY-MM-DD\":");
+		depDate = Date.valueOf(scan.nextLine());
+		
 		
 		String sqlDelete1  = "DELETE FROM reservation where room_id = ' "+ roomId +"'and reservation_id = '" + reservId + "';";
-		String sqlDelete2 =  "DELETE FROM room_reserved where room_id = ' "+ roomId +"';";
+		String sqlDelete2 =  "DELETE FROM room_reserved where room_id = ' "+ roomId +"' and end_date = '" + depDate + "';";
 		
 		statement.addBatch(sqlDelete1);
 		statement.addBatch(sqlDelete2);
