@@ -48,7 +48,7 @@ public class Main{
 		    	             
 		    	            break;
 		    	        case "4": 
-		    	             
+		    	            c.cancelReservation(); 
 		    	            break;
 		    	        case "5": 
 		    	            c.updateReservation(); 
