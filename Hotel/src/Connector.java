@@ -697,7 +697,7 @@ public class Connector
 		}
 	}
 	
-	// Jun, admin #18 Show reservations statistic data
+	// Jun, admin #18 Show the room numbers which rate is higher than average rates
 	public void searchAdminUser() {
 		System.out.println("\n<===== Show the room numbers which rate is higher than average rate =====>");
 		
