@@ -754,6 +754,40 @@ public class Connector
 		
 	}
 	
+	//Dmitriy function#3
+	public void checkout() throws SQLException
+	{
+		conn.setAutoCommit(false);
+		Statement delstmt = conn.createStatement();
+		Scanner scan = new Scanner(System.in);
+		int roomId = 0;
+		int reservId = 0;
+		java.sql.Date depDate = null;
+		
+		System.out.println("\n<===== User checkout =====>");
+		System.out.println("Select the room you were staying in :");
+		roomId = Integer.parseInt(scan.nextLine());
+		
+		
+		System.out.println("Please enter your Departure Date in format \"YYYY-MM-DD\":");
+		depDate = Date.valueOf(scan.nextLine());
+		
+		
+		String sqlDelete1  = "DELETE FROM reservation where room_id = ' "+ roomId +"'and depart = '" + depDate + "';";
+		String sqlDelete2 =  "DELETE FROM room_reserved where room_id = ' "+ roomId +"' and end_date = '" + depDate + "';";
+		
+		statement.addBatch(sqlDelete1);
+		statement.addBatch(sqlDelete2);
+		
+		  
+		statement.executeBatch(); 
+		
+		conn.commit();
+		
+		
+	}
+	
+	
 	//Dmitriy function #5 
 	public void updateReservation() throws SQLException
 	{

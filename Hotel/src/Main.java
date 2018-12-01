@@ -45,7 +45,7 @@ public class Main{
 		    	             c.changeRoom();
 		    	            break;
 		    	        case "3": 
-		    	             
+		    	            c.checkout(); 
 		    	            break;
 		    	        case "4": 
 		    	            c.cancelReservation(); 
