@@ -61,6 +61,58 @@ CREATE TABLE room_reserved (
     FOREIGN KEY ( room_id ) REFERENCES room (room_id)
 );
 
+
+DROP TABLE IF EXISTS `reservationArchive`;
+CREATE TABLE reservationArchive (
+    reservation_id     INTEGER          not null,
+    room_id            INTEGER          not null,
+    user_id          INTEGER            not null, 
+    phone              VARCHAR(20)      not null,
+    arrive             DATE             not null,
+    depart             DATE             not null,
+    cost               DOUBLE           not null,
+    r_status           VARCHAR(50)      not null DEFAULT 'pending',
+    payment_due        DATE             not null,
+    payment_id         INTEGER          not null,
+    FOREIGN KEY ( user_id ) REFERENCES user (user_id),
+    FOREIGN KEY ( room_id ) REFERENCES room(room_id),
+    PRIMARY KEY ( reservation_id )
+);
+
+
+DROP TRIGGER IF EXISTS `TResArchive`;
+DELIMITER $$
+USE `hotel`$$
+CREATE TRIGGER TResArchive
+BEFORE DELETE ON reservation
+FOR EACH ROW
+BEGIN
+    INSERT INTO reservationArchive
+    SELECT r.reservation_id, r.room_id, r.user_id, r.phone, r.arrive, r.depart, r.cost, r.r_status, r.payment_due, r.payment_id
+    FROM reservation r 
+    WHERE reservation_id = old.reservation_id;
+
+    DELETE FROM room_reserved
+    WHERE old.room_id = room_id and old.arrive = start_date;
+END $$
+DELIMITER ;
+
+
+DROP procedure IF EXISTS `SPArchiveReservations`;
+
+DELIMITER $$
+USE `hotel`$$
+CREATE PROCEDURE SPArchiveReservations
+(IN in_day DATE)
+
+Begin 
+    DELETE FROM reservation 
+    WHERE depart < in_day;
+END $$
+DELIMITER ;
+
+
+
 USE `hotel`;
 DROP procedure IF EXISTS `spMakeReservation`;
 
