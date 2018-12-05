@@ -716,6 +716,25 @@ public class Connector
 			e.printStackTrace();
 		}
 	}
+	// Nick #19
+	public void archiveReservations(){
+		System.out.println("<===== List Archive Reservations after a specific date =====>");
+		System.out.println("Please enter the Cut off Date (YYYY-MM-DD)");
+		
+		Scanner scanner = new Scanner(System.in);
+		java.sql.Date cutOffDate = java.sql.Date.valueOf(scanner.nextLine());
+		
+		String sql = "call SPArchiveReservations(?)";
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setDate(1, cutOffDate);
+			pstmt.executeQuery();
+			ResultSet rs = pstmt.getResultSet();
+			System.out.println("< ====== DONE =======>");
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	//Dmitriy function #4
 	public void cancelReservation() throws SQLException

@@ -94,6 +94,9 @@ public class Main{
 		    	        case "18": 
 		    	            c.searchAdminUser();
 		    	            break;
+		    	        case "19":
+		    	        	c.archiveReservations();
+		    	        	break;
 		    	        case "exit": 
 		    	            System.out.println("Thank you. See you.");
 		    	            isOn = false;
