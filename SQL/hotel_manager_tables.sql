@@ -102,6 +102,25 @@ END $$
 DELIMITER ;
 
 
+DROP TRIGGER IF EXISTS overlapRreservationDates;
+DELIMITER //
+Create trigger overlapRreservationDates
+Before UPDATE on Reservation
+For each row
+BEGIN
+IF EXISTS (Select arrive, depart
+From reservation
+Where (new.arrive <= depart AND new.arrive >= arrive and new.room_id = room_id) OR
+(new.depart  >= arrive AND new.depart <= depart AND new.room_ID = room_ID))
+THEN
+SIGNAL SQLSTATE '45000'
+SET MESSAGE_TEXT = 'Date insert conflicts with another date';
+END IF;
+END; //
+DELIMITER ;
+
+
+
 DROP procedure IF EXISTS `SPArchiveReservations`;
 
 DELIMITER $$
