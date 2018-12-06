@@ -17,7 +17,7 @@ public class Menu
 				+ "7.  List all the reservations for a guest    17. Register a new Admin (** basic function **)\n"
 				+ "8.  Delete room                              18. Show the rooms which rate is higher than average rate\n"
 				+ "9.  Pay for a room using reservation ID      19. Archive reservations\n"
-				+ "10. Update payment using reservation number  20. ..?  \n\n"
+				+ "10. Update payment using reservation number  20. List all coustomers who booked rooms  \n\n"
 				+ "* Enter \"exit\" to exit the system\n"
 				);
 	}

@@ -97,6 +97,9 @@ public class Main{
 		    	        case "19":
 		    	        	c.archiveReservations();
 		    	        	break;
+		    	        case "20":
+		    	        	c.listAllCoustomersWhoBookedRooms();
+		    	        	break;
 		    	        case "exit": 
 		    	            System.out.println("Thank you. See you.");
 		    	            isOn = false;

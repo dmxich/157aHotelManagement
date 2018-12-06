@@ -729,13 +729,36 @@ public class Connector
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setDate(1, cutOffDate);
 			pstmt.executeQuery();
-			ResultSet rs = pstmt.getResultSet();
-			System.out.println("< ====== DONE =======>");
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM reservationArchive");
+			System.out.println("The archived reservation table now has the following values:");
+			while (rs.next()) {
+				System.out.println(" Reservation ID: " + rs.getInt("reservation_id") + " Arrive Date: " + rs.getDate("arrive")+ " Depart Date: " +rs.getDate("Depart"));
+			}
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+	//Nick Function #20
+	public void listAllCoustomersWhoBookedRooms(){
+		System.out.println("<===== List all coustomers who have booked rooms =====>");
+		String sql = "SELECT u.first_name, u.last_name "
+				+ "FROM user u "
+				+ "WHERE u.user_id in ("
+				+ "	SELECT r.user_id FROM reservation r "
+				+ "	Union "
+				+ " SELECT ra.user_id FROM reservationArchive ra); ";
+		try {
+			Statement stmt = conn.createStatement();
+			ResultSet rs = stmt.executeQuery(sql);
+			System.out.println("All coustomers who have booked rooms are: ");
+			while (rs.next()) {
+				System.out.println(" " + rs.getString("last_name") + ", " + rs.getString("first_name") );
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	//Dmitriy function #4
 	public void cancelReservation() throws SQLException
 	{
@@ -1020,7 +1043,7 @@ public class Connector
 	
 	//Nick #13
 	public void listGuestByRoomNoAndDate(){
-		System.out.println("<===== Finds guest that  reserved a room on a specific date =====>");
+		System.out.println("<===== Finds the guest that reserved a room on a specific date =====>");
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("please enter the room number");
 		int rm_id = Integer.parseInt(scanner.nextLine());
@@ -1050,7 +1073,7 @@ public class Connector
 	}
 	//Nick 12
 	public void listReservationsByRoom(){
-		System.out.println("<===== Finds guest that  reserved a room on a specific date =====>");
+		System.out.println("<===== Finds all guest that reserved a specific room =====>");
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("please enter the room number");
 		int rm_id = Integer.parseInt(scanner.nextLine());
