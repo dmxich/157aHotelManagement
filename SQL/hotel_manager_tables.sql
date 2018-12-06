@@ -1,3 +1,7 @@
+DROP DATABASE IF EXISTS hotel;
+CREATE DATABASE hotel;
+USE hotel;
+
 DROP TABLE IF EXISTS `room_availability`;
 DROP TABLE IF EXISTS `reservation`;
 DROP TABLE IF EXISTS `user`;
@@ -282,3 +286,16 @@ VALUES (20001, 101, 10001, '4151111134', '2018-06-10', '2018-06-12', 460.2, 'pen
 
 INSERT INTO room_reserved (room_id, start_date, end_date) 
 VALUES (101, '2018-06-10', '2018-06-12');
+
+
+-- for windows user
+LOAD DATA LOCAL INFILE 'c:\\SQL\\user.txt' INTO TABLE user;
+LOAD DATA LOCAL INFILE 'c:\\SQL\\payment.txt' INTO TABLE payment;
+LOAD DATA LOCAL INFILE 'c:\\SQL\\room_reserved.txt' INTO TABLE room_reserved;
+LOAD DATA LOCAL INFILE 'c:\\SQL\\reservation.txt' INTO TABLE reservation;
+
+-- for mac user
+-- LOAD DATA LOCAL INFILE '/Users/jun/Desktop/157A/user.txt' INTO TABLE user;
+-- LOAD DATA LOCAL INFILE '/Users/jun/Desktop/157A/payment.txt' INTO TABLE payment;
+-- LOAD DATA LOCAL INFILE '/Users/jun/Desktop/157A/room_reserved.txt' INTO TABLE room_reserved;
+-- LOAD DATA LOCAL INFILE '/Users/jun/Desktop/157A/reservation.txt' INTO TABLE reservation;
