@@ -105,7 +105,7 @@ DELIMITER ;
 DROP TRIGGER IF EXISTS overlapRreservationDates;
 DELIMITER //
 Create trigger overlapRreservationDates
-Before UPDATE on Reservation
+Before UPDATE on reservation
 For each row
 BEGIN
 IF EXISTS (Select arrive, depart
