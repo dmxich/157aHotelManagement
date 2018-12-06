@@ -1,0 +1,4 @@
+10003	Tim	John	tj@gmail.com	0	654321
+10004	Kim	Lee	kl@gmail.com	0	654321
+10005	Tim	John	tj@gmail.com	0	654321
+10006	Lucy	Lin	ll@gmail.com	1	654321
