@@ -837,6 +837,7 @@ public class Connector
 		conn.setAutoCommit(false);
 		Scanner scan = new Scanner(System.in);
 		int roomId = 0;
+		int reservId = 0;
 		java.sql.Date arrive = null, depart = null;
 		double cost = 0.0;
 		double amount = 0.0;
@@ -844,6 +845,10 @@ public class Connector
 		System.out.println("\n<===== Changing a reservation for a customer =====>");
 		System.out.println("Select room you are currently staying in");
 		roomId = Integer.parseInt(scan.nextLine());
+		System.out.println("Printing all reservations for this room :");
+		listReservationByRoomId(roomId);
+		System.out.println("Select the reservation_id you want to delete :");
+		reservId = Integer.parseInt(scan.nextLine());
 		
 		//enter new arrive date
 		System.out.println("Please enter the new Arrival Date in format \"YYYY-MM-DD\":");
@@ -874,10 +879,10 @@ public class Connector
 		amount = cost;
 		System.out.println("Rate: $" + rate+" per night.");
 		
-		String updRes1 = "UPDATE reservation SET arrive = '" + arrive + "' WHERE room_id = '" + roomId +"'";
-		String updRes2 = "UPDATE reservation SET depart = '" + depart + "' WHERE room_id = '" + roomId + "'";
-		String updRes3 = "UPDATE reservation SET cost = '" + amount + "' WHERE room_id = '" + roomId + "'";
-		String updRes4 = "UPDATE reservation SET r_status ='pending' WHERE room_id = '" + roomId + "'";
+		String updRes1 = "UPDATE reservation SET arrive = '" + arrive + "' WHERE room_id = '" + roomId +"' and reservation_id = '"+ reservId + "';";
+		String updRes2 = "UPDATE reservation SET depart = '" + depart + "' WHERE room_id = '" + roomId + "'and reservation_id = '" + reservId + "';";
+		String updRes3 = "UPDATE reservation SET cost = '" + amount + "' WHERE room_id = '" + roomId + "' and reservation_id = ' " + reservId + "';";
+		String updRes4 = "UPDATE reservation SET r_status ='pending' WHERE room_id = '" + roomId + "'and reservation_id = '" + reservId + "';";
 		
 		statement.addBatch(updRes1);
 		statement.addBatch(updRes2);
