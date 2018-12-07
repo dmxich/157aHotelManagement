@@ -350,7 +350,7 @@ public class Connector
 			System.out.println("\nPlease enter phone #:");
 			phone = scanner.nextLine();
 			
-			status = "pending";
+			status = "reserved";
 			java.sql.Date todaysDate = new java.sql.Date(new java.util.Date().getTime());
 			payment_due = this.addDays(todaysDate, 1);
 			
@@ -882,7 +882,7 @@ public class Connector
 		String updRes1 = "UPDATE reservation SET arrive = '" + arrive + "' WHERE room_id = '" + roomId +"' and reservation_id = '"+ reservId + "';";
 		String updRes2 = "UPDATE reservation SET depart = '" + depart + "' WHERE room_id = '" + roomId + "'and reservation_id = '" + reservId + "';";
 		String updRes3 = "UPDATE reservation SET cost = '" + amount + "' WHERE room_id = '" + roomId + "' and reservation_id = ' " + reservId + "';";
-		String updRes4 = "UPDATE reservation SET r_status ='pending' WHERE room_id = '" + roomId + "'and reservation_id = '" + reservId + "';";
+		String updRes4 = "UPDATE reservation SET r_status ='reserved' WHERE room_id = '" + roomId + "'and reservation_id = '" + reservId + "';";
 		
 		statement.addBatch(updRes1);
 		statement.addBatch(updRes2);
@@ -1001,7 +1001,7 @@ public class Connector
 			System.out.println("\nPlease enter phone #:");
 			phone = scanner.nextLine();
 			
-			status = "pending";
+			status = "reserved";
 			java.sql.Date todaysDate = new java.sql.Date(new java.util.Date().getTime());
 			payment_due = this.addDays(todaysDate, 1);
 			

@@ -75,7 +75,7 @@ CREATE TABLE reservationArchive (
     arrive             DATE             not null,
     depart             DATE             not null,
     cost               DOUBLE           not null,
-    r_status           VARCHAR(50)      not null DEFAULT 'pending',
+    r_status           VARCHAR(50)      not null DEFAULT 'reserved',
     payment_due        DATE             not null,
     payment_id         INTEGER          not null,
     FOREIGN KEY ( user_id ) REFERENCES user (user_id),
@@ -301,7 +301,7 @@ INSERT INTO payment (payment_id, credit_card, expiration_date, amount_due, paid)
 VALUES (30001, "1234567890123456", "2018-09-01", 460.2, false);
 
 INSERT INTO reservation (reservation_id, room_id, user_id, phone, arrive, depart, cost, r_status, payment_due, payment_id) 
-VALUES (20001, 101, 10001, '4151111134', '2018-06-10', '2018-06-12', 460.2, 'pending', '2018-06-11', 30001);
+VALUES (20001, 101, 10001, '4151111134', '2018-06-10', '2018-06-12', 460.2, 'reserved', '2018-06-11', 30001);
 
 INSERT INTO room_reserved (room_id, start_date, end_date) 
 VALUES (101, '2018-06-10', '2018-06-12');
