@@ -154,6 +154,7 @@ public class Connector
 		
 
 		conn.commit();
+		System.out.println("Room was successfully changed");
 		
 	}
 	
@@ -772,12 +773,12 @@ public class Connector
 		int reservId = 0;
 		java.sql.Date depDate = null;
 		
-		System.out.println("\n<===== Deleting reservation for a customer =====>");
-		System.out.println("Select the room you want to delete reservation for :");
+		System.out.println("\n<===== Cancelling reservation for a customer =====>");
+		System.out.println("Select the room you want to cancel reservation for :");
 		roomId = Integer.parseInt(scan.nextLine());
 		System.out.println("Printing all reservations for this room :");
 		listReservationByRoomId(roomId);
-		System.out.println("Select the reservation_id you want to delete :");
+		System.out.println("Select the reservation_id you want to cancel :");
 		reservId = Integer.parseInt(scan.nextLine());
 		
 		
@@ -796,6 +797,7 @@ public class Connector
 		
 		conn.commit();
 		
+		System.out.println("Reservation is successfully cancelled.");
 		
 	}
 	
@@ -828,7 +830,7 @@ public class Connector
 		statement.executeBatch(); 
 		
 		conn.commit();
-		
+		System.out.println("You successfully checkout from out hotel. Thank you for staying.");
 		
 	}
 	
@@ -851,16 +853,18 @@ public class Connector
 		roomId = Integer.parseInt(scan.nextLine());
 		System.out.println("Printing all reservations for this room :");
 		listReservationByRoomId(roomId);
-		System.out.println("Select the reservation_id you want to update :");
+		System.out.println("Select the reservation id you want to update :");
 		reservId = Integer.parseInt(scan.nextLine());
 		
 		//enter new arrive date
 		System.out.println("Please enter the new Arrival Date in format \"YYYY-MM-DD\":");
 		arrive = Date.valueOf(scan.nextLine());
+		System.out.println(arrive);
 		
 		//enter depart date
 		System.out.println("Please enter the new Departure Date in format \"YYYY-MM-DD\":");
 		depart = Date.valueOf(scan.nextLine());
+		System.out.println(depart);
 		
 		//calculate new days
 		int days = daysBetween(arrive, depart);
@@ -899,6 +903,8 @@ public class Connector
 		statement.executeBatch(); 
 		
 		conn.commit();
+		
+		System.out.println("Reservation was successfully updated.");
 		
 		
 	}

@@ -102,9 +102,9 @@ END $$
 DELIMITER ;
 
 
-DROP TRIGGER IF EXISTS overlapRreservationDates;
-DELIMITER //
-Create trigger overlapRreservationDates
+DROP TRIGGER IF EXISTS `overlapReservationDates`;
+DELIMITER $$
+Create trigger overlapReservationDates
 Before UPDATE on reservation
 For each row
 BEGIN
@@ -116,7 +116,7 @@ THEN
 SIGNAL SQLSTATE '45000'
 SET MESSAGE_TEXT = 'Date insert conflicts with another date';
 END IF;
-END; //
+END $$
 DELIMITER ;
 
 
