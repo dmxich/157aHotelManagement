@@ -179,11 +179,14 @@ public class Connector
 			stmt.executeUpdate(sqlQuery);
 			
 			
-			System.out.println("Room is deleted successfully.");
+			
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		finally {
+			System.out.println("Room is deleted successfully.");
 		}
 	}
 	
