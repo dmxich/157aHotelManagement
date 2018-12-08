@@ -833,7 +833,7 @@ public class Connector
 		statement.executeBatch(); 
 		
 		conn.commit();
-		System.out.println("You successfully checkout from out hotel. Thank you for staying.");
+		System.out.println("You successfully checkout from our hotel. Thank you for staying.");
 		
 	}
 	
@@ -862,12 +862,12 @@ public class Connector
 		//enter new arrive date
 		System.out.println("Please enter the new Arrival Date in format \"YYYY-MM-DD\":");
 		arrive = Date.valueOf(scan.nextLine());
-		System.out.println(arrive);
+		
 		
 		//enter depart date
 		System.out.println("Please enter the new Departure Date in format \"YYYY-MM-DD\":");
 		depart = Date.valueOf(scan.nextLine());
-		System.out.println(depart);
+		
 		
 		//calculate new days
 		int days = daysBetween(arrive, depart);
