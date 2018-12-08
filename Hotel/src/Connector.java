@@ -47,19 +47,7 @@ public class Connector
 		}
 		
 	}
-	public void ListGuestsThatOweMoney(){
-		ResultSet rs = null;
-		System.out.println("getting guests that owe money");
-		try {
-			rs = statement.executeQuery("SELECT g.first_name, g.last_name, SUM(p.amount_due) as amnt "
-					+ "FROM payment p, reservation r , guest g "
-					+ "WHERE g.guest_id = r.guest_id and p.payment_id  = r.payment_id and p.amount_due > 0 "
-					+ "GROUP BY g.guest_id;");
-			printGuestsThatOwe(rs);
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-	}
+
 
 	public void printGuestsThatOwe(ResultSet rs) throws SQLException{
 		while(rs.next()){
@@ -539,6 +527,21 @@ public class Connector
 		
 		System.out.println("Payment method information of reservation " + r_id + " has been updated.");
 		
+	}
+	
+	//#10
+	public void ListGuestsThatOweMoney(){
+		ResultSet rs = null;
+		System.out.println("getting guests that owe money");
+		try {
+			rs = statement.executeQuery("SELECT g.first_name, g.last_name, SUM(p.amount_due) as amnt "
+					+ "FROM payment p, reservation r , user g "
+					+ "WHERE g.user_id = r.user_id and p.payment_id  = r.payment_id and p.amount_due > 0 "
+					+ "GROUP BY g.user_id;");
+			printGuestsThatOwe(rs);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
 	}
 	
 	//Jun, function #14
