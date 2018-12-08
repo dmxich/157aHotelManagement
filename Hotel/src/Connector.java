@@ -546,7 +546,7 @@ public class Connector
 		java.sql.Date arrivalDate = java.sql.Date.valueOf(scanner.nextLine());
 		
 		String sql = "SELECT first_name, last_name\n"
-					+ "FROM guest G, reservation R\n"
+					+ "FROM user G, reservation R\n"
 					+ "WHERE G.user_id = R.user_id and R.arrive = ?";
 		try {
 			PreparedStatement pstmt = conn.prepareStatement(sql);

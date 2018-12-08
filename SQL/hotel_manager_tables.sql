@@ -186,11 +186,6 @@ WHERE payment.payment_id IN
 		    (SELECT payment_id
 		    FROM reservation
 		    WHERE reservation_id = reservationID);
-UPDATE reservation 
-SET 
-    r_status = 'reserved'
-WHERE
-    reservation_id = reservationID;
 END$$
 
 DELIMITER ;
