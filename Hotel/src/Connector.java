@@ -167,11 +167,14 @@ public class Connector
 			stmt.executeUpdate(sqlQuery);
 			
 			
-			System.out.println("Room is deleted successfully.");
+			
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		finally {
+			System.out.println("Room is deleted successfully.");
 		}
 	}
 	
@@ -844,13 +847,14 @@ public class Connector
 		java.sql.Date arrive = null, depart = null;
 		double cost = 0.0;
 		double amount = 0.0;
+		java.sql.Date depDate = null;
 				
 		System.out.println("\n<===== Changing a reservation for a customer =====>");
 		System.out.println("Select room you are currently staying in");
 		roomId = Integer.parseInt(scan.nextLine());
 		System.out.println("Printing all reservations for this room :");
 		listReservationByRoomId(roomId);
-		System.out.println("Select the reservation_id you want to delete :");
+		System.out.println("Select the reservation_id you want to update :");
 		reservId = Integer.parseInt(scan.nextLine());
 		
 		//enter new arrive date
@@ -882,15 +886,18 @@ public class Connector
 		amount = cost;
 		System.out.println("Rate: $" + rate+" per night.");
 		
-		String updRes1 = "UPDATE reservation SET arrive = '" + arrive + "' WHERE room_id = '" + roomId +"' and reservation_id = '"+ reservId + "';";
-		String updRes2 = "UPDATE reservation SET depart = '" + depart + "' WHERE room_id = '" + roomId + "'and reservation_id = '" + reservId + "';";
-		String updRes3 = "UPDATE reservation SET cost = '" + amount + "' WHERE room_id = '" + roomId + "' and reservation_id = ' " + reservId + "';";
-		String updRes4 = "UPDATE reservation SET r_status ='reserved' WHERE room_id = '" + roomId + "'and reservation_id = '" + reservId + "';";
+		String updRes2 = "UPDATE reservation SET arrive = '" + arrive + "' WHERE room_id = '" + roomId +"' and reservation_id = '"+ reservId + "';";
+		String updRes3 = "UPDATE reservation SET depart = '" + depart + "' WHERE room_id = '" + roomId + "'and reservation_id = '" + reservId + "';";
+		String updRes4 = "UPDATE reservation SET cost = '" + amount + "' WHERE room_id = '" + roomId + "' and reservation_id = ' " + reservId + "';";
+		String updRes5 = "UPDATE reservation SET r_status ='reserved' WHERE room_id = '" + roomId + "'and reservation_id = '" + reservId + "';";
+		String updRes1 = "UPDATE room_reserved SET start_date = '" + arrive + "', end_date = '" + depart + "' WHERE room_id = '" + roomId + "' AND end_date in "
+				+ "(SELECT depart FROM reservation WHERE reservation_id = '" + reservId + "' );"; 
 		
 		statement.addBatch(updRes1);
 		statement.addBatch(updRes2);
 		statement.addBatch(updRes3);
 		statement.addBatch(updRes4);
+		statement.addBatch(updRes5);
 		  
 		statement.executeBatch(); 
 		
