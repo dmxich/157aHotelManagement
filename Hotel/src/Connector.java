@@ -890,18 +890,16 @@ public class Connector
 		amount = cost;
 		System.out.println("Rate: $" + rate+" per night.");
 		
-		String updRes2 = "UPDATE reservation SET arrive = '" + arrive + "' WHERE room_id = '" + roomId +"' and reservation_id = '"+ reservId + "';";
-		String updRes3 = "UPDATE reservation SET depart = '" + depart + "' WHERE room_id = '" + roomId + "'and reservation_id = '" + reservId + "';";
-		String updRes4 = "UPDATE reservation SET cost = '" + amount + "' WHERE room_id = '" + roomId + "' and reservation_id = ' " + reservId + "';";
-		String updRes5 = "UPDATE reservation SET r_status ='reserved' WHERE room_id = '" + roomId + "'and reservation_id = '" + reservId + "';";
+		String updRes2 = "UPDATE reservation SET arrive = '" + arrive + "', depart = '" + depart + " ', cost = '" + amount + "'"
+				+ ", r_status = 'reserved'  WHERE room_id = '" + roomId +"' and reservation_id = '"+ reservId + "';";
+		
+		
 		String updRes1 = "UPDATE room_reserved SET start_date = '" + arrive + "', end_date = '" + depart + "' WHERE room_id = '" + roomId + "' AND end_date in "
 				+ "(SELECT depart FROM reservation WHERE reservation_id = '" + reservId + "' );"; 
 		
 		statement.addBatch(updRes1);
 		statement.addBatch(updRes2);
-		statement.addBatch(updRes3);
-		statement.addBatch(updRes4);
-		statement.addBatch(updRes5);
+		
 		  
 		statement.executeBatch(); 
 		
