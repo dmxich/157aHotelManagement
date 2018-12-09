@@ -145,8 +145,6 @@ public class Connector
 		
 	}
 	
-	//Dmitriy, function #3
-	
 	
 	//Dmitriy, function #8
 	public void deleteRoom()
@@ -528,7 +526,7 @@ public class Connector
 		
 	}
 	
-	//#10
+	//#11
 	public void ListGuestsThatOweMoney(){
 		ResultSet rs = null;
 		System.out.println("getting guests that owe money");
