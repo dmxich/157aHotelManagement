@@ -142,6 +142,7 @@ public class Connector
 		
 
 		conn.commit();
+		System.out.println("Room was successfully changed");
 		
 	}
 	
@@ -773,12 +774,12 @@ public class Connector
 		int reservId = 0;
 		java.sql.Date depDate = null;
 		
-		System.out.println("\n<===== Deleting reservation for a customer =====>");
-		System.out.println("Select the room you want to delete reservation for :");
+		System.out.println("\n<===== Cancelling reservation for a customer =====>");
+		System.out.println("Select the room you want to cancel reservation for :");
 		roomId = Integer.parseInt(scan.nextLine());
 		System.out.println("Printing all reservations for this room :");
 		listReservationByRoomId(roomId);
-		System.out.println("Select the reservation_id you want to delete :");
+		System.out.println("Select the reservation_id you want to cancel :");
 		reservId = Integer.parseInt(scan.nextLine());
 		
 		
@@ -797,6 +798,7 @@ public class Connector
 		
 		conn.commit();
 		
+		System.out.println("Reservation is successfully cancelled.");
 		
 	}
 	
@@ -829,7 +831,7 @@ public class Connector
 		statement.executeBatch(); 
 		
 		conn.commit();
-		
+		System.out.println("You successfully checkout from our hotel. Thank you for staying.");
 		
 	}
 	
@@ -852,16 +854,18 @@ public class Connector
 		roomId = Integer.parseInt(scan.nextLine());
 		System.out.println("Printing all reservations for this room :");
 		listReservationByRoomId(roomId);
-		System.out.println("Select the reservation_id you want to update :");
+		System.out.println("Select the reservation id you want to update :");
 		reservId = Integer.parseInt(scan.nextLine());
 		
 		//enter new arrive date
 		System.out.println("Please enter the new Arrival Date in format \"YYYY-MM-DD\":");
 		arrive = Date.valueOf(scan.nextLine());
 		
+		
 		//enter depart date
 		System.out.println("Please enter the new Departure Date in format \"YYYY-MM-DD\":");
 		depart = Date.valueOf(scan.nextLine());
+		
 		
 		//calculate new days
 		int days = daysBetween(arrive, depart);
@@ -884,22 +888,22 @@ public class Connector
 		amount = cost;
 		System.out.println("Rate: $" + rate+" per night.");
 		
-		String updRes2 = "UPDATE reservation SET arrive = '" + arrive + "' WHERE room_id = '" + roomId +"' and reservation_id = '"+ reservId + "';";
-		String updRes3 = "UPDATE reservation SET depart = '" + depart + "' WHERE room_id = '" + roomId + "'and reservation_id = '" + reservId + "';";
-		String updRes4 = "UPDATE reservation SET cost = '" + amount + "' WHERE room_id = '" + roomId + "' and reservation_id = ' " + reservId + "';";
-		String updRes5 = "UPDATE reservation SET r_status ='reserved' WHERE room_id = '" + roomId + "'and reservation_id = '" + reservId + "';";
+		String updRes2 = "UPDATE reservation SET arrive = '" + arrive + "', depart = '" + depart + " ', cost = '" + amount + "'"
+				+ ", r_status = 'reserved'  WHERE room_id = '" + roomId +"' and reservation_id = '"+ reservId + "';";
+		
+		
 		String updRes1 = "UPDATE room_reserved SET start_date = '" + arrive + "', end_date = '" + depart + "' WHERE room_id = '" + roomId + "' AND end_date in "
 				+ "(SELECT depart FROM reservation WHERE reservation_id = '" + reservId + "' );"; 
 		
 		statement.addBatch(updRes1);
 		statement.addBatch(updRes2);
-		statement.addBatch(updRes3);
-		statement.addBatch(updRes4);
-		statement.addBatch(updRes5);
+		
 		  
 		statement.executeBatch(); 
 		
 		conn.commit();
+		
+		System.out.println("Reservation was successfully updated.");
 		
 		
 	}
